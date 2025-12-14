@@ -11,7 +11,9 @@ TARGET = btc
 # Source files
 SRCS =	main.cpp 
 # Object files
-OBJS = $(SRCS:.cpp=.o)
+
+OBJS_Dir = objects
+OBJS = $(addprefix $(Object.OBJS_Dir)/, $(SRCS:.cpp=.o))
 
 # Default target
 all: $(TARGET)
@@ -21,8 +23,12 @@ $(TARGET): $(OBJS)
 	$(CXX) $(CXXFLAGS) -o $(TARGET) $(OBJS)
 
 # Compile source files into object files
-%.o: %.cpp
+$(OBJS_Dir)/%.o: %cpp | $(OBJS_Dir)
+#%.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
+$(OBJS_Dir)
+	@echo "Creating $(OBJS_Dir) directory"
+	@mkdir -p $(OBJS_Dir)
 
 clean:
 	rm -f $(OBJS) 

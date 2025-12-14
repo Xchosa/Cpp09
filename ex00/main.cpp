@@ -6,7 +6,7 @@
 /*   By: poverbec <poverbec@student.42heilbronn>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:26:46 by poverbec          #+#    #+#             */
-/*   Updated: 2025/12/10 10:48:34 by poverbec         ###   ########.fr       */
+/*   Updated: 2025/12/13 13:39:16 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,12 @@
 
 
 
-char *writeFile(BtcFile, line)
+std::string create_inputFilePath(char **argv)
 {
-    std::ofstream outfile("formatedData.csv");
-    if(!outfile.is_open()) {
-		std::cerr << "Error: file not writable" << std::endl;
-        BtcFile.close();
-    	exit (1);
-    }
+    std::string s1 = "DataBase/";
+    std::string s2 = argv[1];
+    return (s1 + s2);
+    
 }
 
 
@@ -36,17 +34,24 @@ int main(int argc, char** argv)
 		std::cerr << "too many arguments given \n Usage: ./btc <input_file>" << std::endl;
         return 1;
 	}
-	
-    std::ifstream BtcFile(argv[1]);
+	loadDataBase("DataBase/data.csv");
+    // load database DataBase/data.csv in container
+    // load input.txt file --> argv[1] verarbeite zeile 
+    // fuer zeile diesen input und print in console
+    std::string inputFilePath =create_inputFilePath(argv[1]);
+    
+    std::ifstream BtcFile(inputFilePath);
     if(!BtcFile.is_open())
     {
         std::cerr << "file not readable" << std::endl;
         return 1;
     }
+    
     std::string line;
     while(std::getline(BtcFile, line))
     {
-        std::outfile << writeFile(BtcFile, line);
+        
+        
     }
     BtcFile.close();
     return 0;
