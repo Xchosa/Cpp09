@@ -15,7 +15,10 @@ SRCS =	main.cpp \
 # Object files
 
 OBJS_Dir = objects
-OBJS = $(addprefix $(OBJS_Dir)/, $(SRCS:.cpp=.o))
+OBJS = $(addprefix $(OBJS_Dir)/, $(notdir $(SRCS:.cpp=.o)))
+
+# Search path for source files
+vpath %.cpp . ../color
 
 # Default target
 all: $(TARGET)

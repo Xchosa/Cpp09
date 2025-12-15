@@ -6,7 +6,7 @@
 /*   By: poverbec <poverbec@student.42heilbronn>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:26:46 by poverbec          #+#    #+#             */
-/*   Updated: 2025/12/15 16:38:02 by poverbec         ###   ########.fr       */
+/*   Updated: 2025/12/15 17:56:39 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #include <fstream>
 #include <string>
 
-
+#include "../color/color.hpp"
 
 std::string create_inputFilePath(char **argv)
 {
@@ -31,12 +31,12 @@ int main(int argc, char** argv)
 
 	if(argc != 2)
 	{
-		std::cerr << "too many arguments given \n Usage: ./btc <input_file>" << std::endl;
+		std::cerr << "too few arguments given \n Usage: ./btc <input_file>" << std::endl;
         return 1;
 	}
 	
     std::map<std::string,double> DbMap = loadDataBase("DataBase/data.csv");   
-    std::string inputFilePath =create_inputFilePath(argv[1]);
+    std::string inputFilePath =create_inputFilePath(argv);
     
     
     std::ifstream BtcFile(inputFilePath);
@@ -68,29 +68,35 @@ int main(int argc, char** argv)
             
         }
         
-        std::map<std::string, double>::DbMapFoundDate =  FindRateForDate(DbMap, date); // price of csv file
+        std::map<std::string, double>::const_iterator DbMapFoundDate =  FindRateForDate(DbMap, date); // price of csv file
         
-        double amount = convertAmount(line, found);
-        if(!amount)
-            continue;
-        line.substr(found, line.end())
+        colorprint(DbMapFoundDate->first, GREEN);
+        
+        //double amount = convertAmount(line, found);
+        //if(!amount)
+        //    continue;
+        //line.substr(found, line.end())
         
     }
     BtcFile.close();
     return 0;
 }
 
-double convertAmount(std::string line, size_t found)
-{
+//double convertAmount(std::string line, size_t found)
+//{
 
-    std::string amoundStr = line.substr(found, line.end(), line.size());
-    std::atol(amoundStr)
-    {
-        std::cerr << "Error: not a positiv numbe." << std::endl;
-    }
-    // error for negative number
-    // error for to big number, 
-}
+//    std::string amoundStr = line.substr(found, line.end(), (line.size() - found));
+   
+//    double amount;
+//    amount = std::atol(amoundStr);
+//    if(!std::atol(amoundStr))
+//    {
+//        std::cerr << "Error: not a positiv number." << std::endl;
+//    }
+//    amo
+//    // error for negative number
+//    // error for to big number, 
+//}
 /*
 2022-03-29
 $> ./btc input.txt

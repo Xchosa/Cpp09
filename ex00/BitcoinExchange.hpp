@@ -6,7 +6,7 @@
 /*   By: poverbec <poverbec@student.42heilbronn>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 10:08:35 by poverbec          #+#    #+#             */
-/*   Updated: 2025/12/15 16:20:33 by poverbec         ###   ########.fr       */
+/*   Updated: 2025/12/15 18:05:18 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,22 @@ std::map<std::string,double> loadDataBase(std::string dbPath)
 double convertDate(const std::string &date)
 {
 	std::string stringDate = date;
-	stringDate.erase(stringDate.find('-'));
-	return(std::stod(stringDate)); // date in numeric 
+	std::cout <<"error" << std::endl;
 	
+	size_t pos = 0;
+	int num = 0;
+	while(pos = stringDate.find("-", pos))
+	{
+		stringDate.erase(pos, 1);
+		num++;
+	}
+	if(num != 2)
+		throw std::out_of_range("Error: invaild date");
+	//std::cout <<"error" << std::endl;
+	if!(std::stod(stringDate))
+		throw std::out_of_range("Error: invalid date");// date in numeric 
+	
+	return std::stod(stringDate);
 	//throw std::invalid_argument(colortxt("invalid date", RED));
 
 };
