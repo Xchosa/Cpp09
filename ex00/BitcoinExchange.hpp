@@ -6,7 +6,7 @@
 /*   By: poverbec <poverbec@student.42heilbronn>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 10:08:35 by poverbec          #+#    #+#             */
-/*   Updated: 2025/12/15 11:28:22 by poverbec         ###   ########.fr       */
+/*   Updated: 2025/12/15 16:20:33 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 #include <algorithm>
 #include <cctype>
 
+#include "../color/color.hpp"
 
 //template <typename T>
 //std::pair <int, std::string > loadedDataBase;
@@ -75,35 +76,39 @@ std::map<std::string,double> loadDataBase(std::string dbPath)
 	return DbMap;
 };
 
-
-
-double FindRateForDate(const std::map<std::string, double >& DbMap, const std::string& date)
+double convertDate(const std::string &date)
 {
-	//std::iterator *it;
-	//for(interator map = it; it != it.end(); it++)
-	//{
-		
-	//}
+	std::string stringDate = date;
+	stringDate.erase(stringDate.find('-'));
+	return(std::stod(stringDate)); // date in numeric 
+	
+	//throw std::invalid_argument(colortxt("invalid date", RED));
+
+};
+
+// find all dates that are less then date
+		// 2012-01-11
+		// return rate with the highest date 
+		// if no earlier date exist 
+			// return error
+
+std::map<std::string, double>::const_iterator FindRateForDate(const std::map<std::string, double >& DbMap, const std::string& date)
+{
+	
 	std::map<std::string, double>::const_iterator it = DbMap.find(date);
 	
 	
 	//auto it = DbMap.find(date);
 	if (it != DbMap.end())
 	{
-		return (it->second);
+		colorprint(it->first, GREEN);
+		return (it);
 	}
 	else 
 	{
-		
-		// find all dates that are less then date
-		// 2012-01-11
-		// return rate with the highest date 
-		// if no earlier date exist 
-			// return error
-
 		double doubleDate  = convertDate(date);
 		double closestDate = 20090102;
-		std::map<std::string, double>::const_iterator iter2;
+		std::map<std::string, double>::const_iterator iter2 = DbMap.end();
 		for (std::map<std::string, double>::const_iterator iter; iter != DbMap.end(); iter++ )
 		{
 			
@@ -115,26 +120,19 @@ double FindRateForDate(const std::map<std::string, double >& DbMap, const std::s
 				double tmpDateDif2 = doubleDate - closestDate;
 				if(tmpDateDif < tmpDateDif2)
 				{
-					closestDate = tmpDateDif2;
+					closestDate = MapDate;
 					iter2 = iter;
 				}
 			}
-			continue;
 		}
-		return iter2->second;// convert back? find iterator ? 
+		if (iter2 != DbMap.end())
+			colorprint(iter2->first, GREEN);
+		//return iter2->second;// 
+		return(iter2);
 	}
 	
 }
 
 //double convertDate(const std::map<std::string, double >&DbMap, const std::string&date)
-double convertDate(const std::string&date)
-{
-	std::string stringDate = date;
-	stringDate.erase(stringDate.find('-'));
-	return (std::stod(stringDate)); // date in numeric 
-	
 
-	
-	for( )
-}
 

@@ -9,11 +9,13 @@ CXXFLAGS = -Wall -Wextra -Werror -std=c++17
 TARGET = btc
 
 # Source files
-SRCS =	main.cpp 
+SRCS =	main.cpp \
+		../color/color.cpp
+
 # Object files
 
 OBJS_Dir = objects
-OBJS = $(addprefix $(Object.OBJS_Dir)/, $(SRCS:.cpp=.o))
+OBJS = $(addprefix $(OBJS_Dir)/, $(SRCS:.cpp=.o))
 
 # Default target
 all: $(TARGET)
@@ -22,13 +24,13 @@ all: $(TARGET)
 $(TARGET): $(OBJS)
 	$(CXX) $(CXXFLAGS) -o $(TARGET) $(OBJS)
 
-# Compile source files into object files
-$(OBJS_Dir)/%.o: %cpp | $(OBJS_Dir)
-#%.o: %.cpp
-	$(CXX) $(CXXFLAGS) -c $< -o $@
-$(OBJS_Dir)
+$(OBJS_Dir):
 	@echo "Creating $(OBJS_Dir) directory"
 	@mkdir -p $(OBJS_Dir)
+
+# Compile source files into object files
+$(OBJS_Dir)/%.o: %.cpp | $(OBJS_Dir)
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 clean:
 	rm -f $(OBJS) 
