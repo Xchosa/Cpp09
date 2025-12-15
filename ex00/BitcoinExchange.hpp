@@ -6,7 +6,7 @@
 /*   By: poverbec <poverbec@student.42heilbronn>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 10:08:35 by poverbec          #+#    #+#             */
-/*   Updated: 2025/12/15 09:43:32 by poverbec         ###   ########.fr       */
+/*   Updated: 2025/12/15 11:14:09 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,8 @@ std::map<std::string,double> loadDataBase(std::string dbPath)
 	return DbMap;
 };
 
+
+
 double FindRateForDate(const std::map<std::string, double >& DbMap, const std::string& date)
 {
 	//std::iterator *it;
@@ -82,24 +84,53 @@ double FindRateForDate(const std::map<std::string, double >& DbMap, const std::s
 	//{
 		
 	//}
-	std::iterator it = DbMap.find(date);
+	std::map<std::string, double>::const_iterator it = DbMap.find(date);
+	
 	
 	//auto it = DbMap.find(date);
 	if (it != DbMap.end())
 	{
-		return (*it);
+		return (it->second);
 	}
 	else 
 	{
+		
 		// find all dates that are less then date
 		// 2012-01-11
 		// return rate with the highest date 
 		// if no earlier date exist 
 			// return error
 
-		
+		double doubleDate  = convertDate(date);
+		double closestDate = 20090102;
+		for (std::map<std::string, double>::const_iterator iter; iter != DbMap.end(); iter++ )
+		{
+			
+			double MapDate = convertDate(it->first);
+			if(MapDate < doubleDate)
+			{
+				// 20120111 < 20120220
+				double tmpDateDif = doubleDate - MapDate;
+				double tmpDateDif2 = doubleDate - closestDate;
+				if(tmpDateDif < tmpDateDif2)
+					closestDate = tmpDateDif2;	
+			}
+			continue;
+		}
+		// convert back? find iterator ? 
 	}
 	
 }
 
+//double convertDate(const std::map<std::string, double >&DbMap, const std::string&date)
+double convertDate(const std::string&date)
+{
+	std::string stringDate = date;
+	stringDate.erase(stringDate.find('-'));
+	return (std::stod(stringDate)); // date in numeric 
+	
+
+	
+	for( )
+}
 

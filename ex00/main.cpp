@@ -6,7 +6,7 @@
 /*   By: poverbec <poverbec@student.42heilbronn>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:26:46 by poverbec          #+#    #+#             */
-/*   Updated: 2025/12/15 09:31:23 by poverbec         ###   ########.fr       */
+/*   Updated: 2025/12/15 11:08:17 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,11 @@ int main(int argc, char** argv)
             continue;
         }
         std::string date = line.substr(0, found -1);
+        if (convertDate(date) < 20090102)
+        {
+            std::cerr << "date to old " << std::endl;
+            continue;
+        }
         double rate = FindRateForDate(DbMap, date);
         
     }
