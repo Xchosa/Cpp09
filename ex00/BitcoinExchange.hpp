@@ -6,7 +6,7 @@
 /*   By: poverbec <poverbec@student.42heilbronn>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 10:08:35 by poverbec          #+#    #+#             */
-/*   Updated: 2025/12/15 11:14:09 by poverbec         ###   ########.fr       */
+/*   Updated: 2025/12/15 11:28:22 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ double FindRateForDate(const std::map<std::string, double >& DbMap, const std::s
 
 		double doubleDate  = convertDate(date);
 		double closestDate = 20090102;
+		std::map<std::string, double>::const_iterator iter2;
 		for (std::map<std::string, double>::const_iterator iter; iter != DbMap.end(); iter++ )
 		{
 			
@@ -113,11 +114,14 @@ double FindRateForDate(const std::map<std::string, double >& DbMap, const std::s
 				double tmpDateDif = doubleDate - MapDate;
 				double tmpDateDif2 = doubleDate - closestDate;
 				if(tmpDateDif < tmpDateDif2)
-					closestDate = tmpDateDif2;	
+				{
+					closestDate = tmpDateDif2;
+					iter2 = iter;
+				}
 			}
 			continue;
 		}
-		// convert back? find iterator ? 
+		return iter2->second;// convert back? find iterator ? 
 	}
 	
 }
