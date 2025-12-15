@@ -6,7 +6,7 @@
 /*   By: poverbec <poverbec@student.42heilbronn>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:26:46 by poverbec          #+#    #+#             */
-/*   Updated: 2025/12/13 13:39:16 by poverbec         ###   ########.fr       */
+/*   Updated: 2025/12/15 09:31:23 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,10 @@ int main(int argc, char** argv)
 		std::cerr << "too many arguments given \n Usage: ./btc <input_file>" << std::endl;
         return 1;
 	}
-	loadDataBase("DataBase/data.csv");
-    // load database DataBase/data.csv in container
-    // load input.txt file --> argv[1] verarbeite zeile 
-    // fuer zeile diesen input und print in console
+	
+   std::map<std::string,double> DbMap = loadDataBase("DataBase/data.csv");   
     std::string inputFilePath =create_inputFilePath(argv[1]);
+    
     
     std::ifstream BtcFile(inputFilePath);
     if(!BtcFile.is_open())
@@ -50,7 +49,19 @@ int main(int argc, char** argv)
     std::string line;
     while(std::getline(BtcFile, line))
     {
-        
+        trim(line);
+		if(line.empty())
+			continue;
+		if(line.find("date | value", 0))
+			continue;;
+        size_t found = line.find("|");
+        if(found == std::string::npos)
+        {
+            std::cerr << " invalid line" << std::endl;
+            continue;
+        }
+        std::string date = line.substr(0, found -1);
+        double rate = FindRateForDate(DbMap, date);
         
     }
     BtcFile.close();

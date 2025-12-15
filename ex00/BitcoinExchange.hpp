@@ -6,7 +6,7 @@
 /*   By: poverbec <poverbec@student.42heilbronn>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 10:08:35 by poverbec          #+#    #+#             */
-/*   Updated: 2025/12/13 14:19:18 by poverbec         ###   ########.fr       */
+/*   Updated: 2025/12/15 09:43:32 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,25 +57,49 @@ std::map<std::string,double> loadDataBase(std::string dbPath)
 			continue;
 		if(line.find("date | value", 0))
 			continue;;
-		std::string data = line.substr()
+		std::size_t found = line.find("|");
+		if(found == std::string::npos)
+		{
+			std::cerr << "invalid line" << std::endl;
+			continue;
+		}
+		std::string date = line.substr (0,found -1);
+		std::string value = line.substr(found + 1);
+		double valuedb = std::stod(value);
+		// if (valuedb)
+		
+		
+		DbMap.insert({date, valuedb});
+		
+	}
+	return DbMap;
+};
+
+double FindRateForDate(const std::map<std::string, double >& DbMap, const std::string& date)
+{
+	//std::iterator *it;
+	//for(interator map = it; it != it.end(); it++)
+	//{
+		
+	//}
+	std::iterator it = DbMap.find(date);
+	
+	//auto it = DbMap.find(date);
+	if (it != DbMap.end())
+	{
+		return (*it);
+	}
+	else 
+	{
+		// find all dates that are less then date
+		// 2012-01-11
+		// return rate with the highest date 
+		// if no earlier date exist 
+			// return error
+
+		
 	}
 	
-
-	return DbMap;
 }
 
-double storeFindRateForDate(const std::map<std::string, double >& DbPath, const std::string& date)
-{
-	auto it = d
-
-	std::string line;
-    while(std::getline(BtcFile, line))
-	{
-		trim(line);
-		if(line.empty())
-			continue;
-		if(line.find("date | value", 0))
-			continue;;
-		std::string data = line.substr()
-}
 
