@@ -6,7 +6,7 @@
 /*   By: poverbec <poverbec@student.42heilbronn>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:26:46 by poverbec          #+#    #+#             */
-/*   Updated: 2025/12/15 17:56:39 by poverbec         ###   ########.fr       */
+/*   Updated: 2025/12/16 12:10:28 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,68 +17,27 @@
 
 #include "../color/color.hpp"
 
-std::string create_inputFilePath(char **argv)
-{
-    std::string s1 = "DataBase/";
-    std::string s2 = argv[1];
-    return (s1 + s2);
-    
-}
+
 
 
 int main(int argc, char** argv)
 {
-
 	if(argc != 2)
 	{
 		std::cerr << "too few arguments given \n Usage: ./btc <input_file>" << std::endl;
         return 1;
 	}
-	
-    std::map<std::string,double> DbMap = loadDataBase("DataBase/data.csv");   
-    std::string inputFilePath =create_inputFilePath(argv);
-    
-    
-    std::ifstream BtcFile(inputFilePath);
-    if(!BtcFile.is_open())
+	try
     {
-        std::cerr << "file not readable" << std::endl;
-        return 1;
+        std::map<std::string,double> DbMap = loadDataBase("DataBase/data.csv");
+        std::string inputFilePath =create_inputFilePath(argv);
+        std::cout << "Filepath "<< inputFilePath << std::endl;
+        readInputandPrintBitcoin(inputFilePath, DbMap);
     }
-    
-    std::string line;
-    while(std::getline(BtcFile, line))
+    catch(const std::exception& e)
     {
-        trim(line);
-		if(line.empty())
-			continue;
-		if(line.find("date | value", 0))
-			continue;;
-        size_t found = line.find("|");
-        if (found == std::string::npos)
-        {
-            std::cerr << " invalid line" << std::endl;
-            continue;
-        }
-        std::string date = line.substr(0, found -1);
-        if (convertDate(date) < 20090102 || convertDate(date) > 20220330)
-        {
-            std::cerr << "Error: Bad input ==>" << date << std::endl;
-            continue;
-            
-        }
-        
-        std::map<std::string, double>::const_iterator DbMapFoundDate =  FindRateForDate(DbMap, date); // price of csv file
-        
-        colorprint(DbMapFoundDate->first, GREEN);
-        
-        //double amount = convertAmount(line, found);
-        //if(!amount)
-        //    continue;
-        //line.substr(found, line.end())
-        
+        std::cerr << e.what() << '\n';
     }
-    BtcFile.close();
     return 0;
 }
 
