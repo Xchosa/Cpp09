@@ -6,7 +6,7 @@
 /*   By: poverbec <poverbec@student.42heilbronn>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:26:46 by poverbec          #+#    #+#             */
-/*   Updated: 2025/12/16 12:10:28 by poverbec         ###   ########.fr       */
+/*   Updated: 2025/12/16 14:22:11 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int main(int argc, char** argv)
     {
         std::map<std::string,double> DbMap = loadDataBase("DataBase/data.csv");
         std::string inputFilePath =create_inputFilePath(argv);
-        std::cout << "Filepath "<< inputFilePath << std::endl;
+        std::cout << "Filepath to input.txt: "<< inputFilePath << std::endl;
         readInputandPrintBitcoin(inputFilePath, DbMap);
     }
     catch(const std::exception& e)

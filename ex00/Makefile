@@ -11,6 +11,7 @@ TARGET = btc
 # Source files
 SRCS =	main.cpp \
 		BitcoinExchange.cpp \
+		utilis.cpp \
 		../color/color.cpp
 
 # Object files
