@@ -6,7 +6,7 @@
 /*   By: poverbec <poverbec@student.42heilbronn>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 10:08:28 by poverbec          #+#    #+#             */
-/*   Updated: 2025/12/17 12:47:11 by poverbec         ###   ########.fr       */
+/*   Updated: 2025/12/17 19:05:58 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,13 @@
 
 #include "BitcoinExchange.hpp"
 
+
+bool checkValidDate(std::string date)
+{
+	// schalt jahr 
+	//convertDate(date) < 20090102
+	
+};
 
 
 void readInputandPrintBitcoin(std::string inputFilePath, std::map<std::string,double> DbMap)
@@ -38,35 +45,56 @@ void readInputandPrintBitcoin(std::string inputFilePath, std::map<std::string,do
 			continue;
 		if(line.find("date | value") == 0)
 			continue;;
-		std::cout << "Input file: " << line << std::endl;
+		//std::cout << "Input file: " << line << std::endl;
         size_t found = line.find("|");
-        if (found == std::string::npos)
-        {
-            std::cerr << " invalid line" << std::endl;
-            continue;
-        }
+        //if (found == std::string::npos)
+        //{
+        //    std::cerr << " invalid line" << std::endl;
+        //    continue;
+        //}
         std::string date = line.substr(0, found-1);
 		//std::cout << "date: " << date << std::endl;
-        if (convertDate(date) < 20090102)
+        if (convertDate(date) < 20090102) /// implent boool
         {
-            std::cerr << "Error: Bad input ==>" << date << std::endl;
+            std::cerr << "Error: Bad input ==> " << date << std::endl;
             continue;
             
         }
         
         //std::map<std::string, double>::const_iterator DbMapFoundDate =  FindRateForDate(DbMap, date); // price of csv file
 		auto DbMapFoundDate =  FindRateForDate(DbMap, date); // price of csv file
+		
         
 		//std::cout << "test" << std::endl;
-		std::cout << "matching line in data Base:" << "[" << DbMapFoundDate->first  << " | " << DbMapFoundDate->second  << "]" << std::endl;
+		//std::cout << "matching line in data Base:" << "[" << DbMapFoundDate->first  << " | " << DbMapFoundDate->second  << "]" << std::endl;
 		//std::cout << "price: " << DbMapFoundDate->second << std::endl;
         //colorprint(DbMapFoundDate->first, GREEN);
         
-        //double amount = convertAmount(line, found);
-        //if(!amount)
-        //    continue;
-        //line.substr(found, line.end())
+        double amountDB = DbMapFoundDate->second;
+	
+		
+        std::string amount_input = line.substr(found + 1);
+		trim(amount_input);
+		if(amount_input.size() == 0)
+		{
+			std::cerr << "invalid line" << std::endl;
+			 continue;
+		}
+		double amount_inputdb = std::stod(amount_input);
 
+        if(amount_inputdb > __INT_MAX__ )
+		{
+			 std::cerr << "Error: Too big number " << std::endl;
+			 continue;
+		}
+		else if(amount_inputdb < 0)
+		{
+			std::cerr << "Error: not a positive number. " << std::endl;
+			continue;
+		}
+		double value = amountDB * amount_inputdb ;
+;		std::cout << DbMapFoundDate->first << " =>" << amount_input << " = " <<  value << std::endl;
+		
 
 
 
@@ -120,7 +148,7 @@ std::map<std::string, double>::const_iterator FindRateForDate(const std::map<std
 	
 	if (it != DbMap.end())
 	{
-		std::cout << "matching Date found:" << "[" << it->first  << " | " << it->second  << "]" << std::endl;
+		//std::cout << "matching Date found:" << "[" << it->first  << " | " << it->second  << "]" << std::endl;
 		//colorprint(it->first, GREEN);
 		return (it);
 	}
@@ -149,7 +177,7 @@ std::map<std::string, double>::const_iterator FindRateForDate(const std::map<std
 		{
 			//iter2 = std::prev(DbMap.end());
 			//std::cout << 
-			std::cout << "matching Date found (closest):" << "[" << iter2->first  << " | " << iter2->second  << "]" << std::endl;
+			//std::cout << "matching Date found (closest):" << "[" << iter2->first  << " | " << iter2->second  << "]" << std::endl;
 			
 			//colorprint(iter2->first, GREEN);
 		}

@@ -6,7 +6,7 @@
 /*   By: poverbec <poverbec@student.42heilbronn>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 18:02:16 by poverbec          #+#    #+#             */
-/*   Updated: 2025/12/17 12:42:19 by poverbec         ###   ########.fr       */
+/*   Updated: 2025/12/17 18:11:58 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,11 +97,11 @@ std::map<std::string,double> loadDataBase(std::string dbPath)
 	}
 	if (DbMap.empty())
 		std::cout << "DbMap is empty"<< std::endl;
-	else
-	{
-		auto last = std::prev(DbMap.end()); // pointer to last iterator
-		std::cout << "DbMap filled last line :" << "[" << last->first  << " | " << last->second  << "]" << std::endl;
-	}
+	//else
+	//{
+	//	auto last = DbMap.end(); // pointer to last iterator
+	//	//std::cout << "DbMap filled last line :" << "[" << last->first  << " | " << last->second  << "]" << std::endl;
+	//}
 	testToFile(DbMap);
 	
 	return DbMap;
