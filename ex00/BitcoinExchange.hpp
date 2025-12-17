@@ -6,7 +6,7 @@
 /*   By: poverbec <poverbec@student.42heilbronn>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 10:08:35 by poverbec          #+#    #+#             */
-/*   Updated: 2025/12/16 11:52:00 by poverbec         ###   ########.fr       */
+/*   Updated: 2025/12/17 19:53:20 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 std::string create_inputFilePath(char **argv);
 
 void trim(std::string &str);
+double convertDate(const std::string &date);
 
 std::map<std::string,double> loadDataBase(std::string dbPath);
 void readInputandPrintBitcoin(std::string inputFilePath, std::map<std::string,double> DbMap);

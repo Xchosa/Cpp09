@@ -6,7 +6,7 @@
 /*   By: poverbec <poverbec@student.42heilbronn>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 10:08:28 by poverbec          #+#    #+#             */
-/*   Updated: 2025/12/17 19:05:58 by poverbec         ###   ########.fr       */
+/*   Updated: 2025/12/17 19:58:34 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,28 @@
 #include "BitcoinExchange.hpp"
 
 
-bool checkValidDate(std::string date)
+bool checkValidDate(std::string data)
 {
-	// schalt jahr 
-	//convertDate(date) < 20090102
+	double dataDb = convertDate(data);
+	if (dataDb < 20090102) /// implent boool
+    {
+        std::cerr << "Error: Bad input: invalid year ==> " << data << std::endl;
+		return false;
+    }
+	double dataMM = convertDate(data.substr(5,2));
+	if (dataMM > 12)
+	{
+        std::cerr << "Error: Bad input: invalid month ==> " << data << std::endl;
+		return false;
+    }
+	double dataDD = convertDate(data.substr(7,2));
+	// 31 /30  + schalt jahre 
+	if(dataDD > 31)
+	{
+        std::cerr << "Error: Bad input: invaild day ==> " << data << std::endl;
+		return false;
+    }//std::cout << std::to_string(dataMM) << std::endl;
+	return true;
 	
 };
 
@@ -54,12 +72,8 @@ void readInputandPrintBitcoin(std::string inputFilePath, std::map<std::string,do
         //}
         std::string date = line.substr(0, found-1);
 		//std::cout << "date: " << date << std::endl;
-        if (convertDate(date) < 20090102) /// implent boool
-        {
-            std::cerr << "Error: Bad input ==> " << date << std::endl;
-            continue;
-            
-        }
+		if(checkValidDate(date) == false)
+        	continue;
         
         //std::map<std::string, double>::const_iterator DbMapFoundDate =  FindRateForDate(DbMap, date); // price of csv file
 		auto DbMapFoundDate =  FindRateForDate(DbMap, date); // price of csv file
@@ -93,13 +107,7 @@ void readInputandPrintBitcoin(std::string inputFilePath, std::map<std::string,do
 			continue;
 		}
 		double value = amountDB * amount_inputdb ;
-;		std::cout << DbMapFoundDate->first << " =>" << amount_input << " = " <<  value << std::endl;
-		
-
-
-
-		
-
+		std::cout << DbMapFoundDate->first << " =>" << amount_input << " = " <<  value << std::endl;
 		// mulitplizieren 
         
     }
@@ -129,12 +137,6 @@ double convertDate(const std::string &date)
 	}
 	return 1;
 };
-
-// find all dates that are less then date
-		// 2012-01-11
-		// return rate with the highest date 
-		// if no earlier date exist 
-			// return error
 
 std::map<std::string, double>::const_iterator FindRateForDate(const std::map<std::string, double >& DbMap, const std::string& date)
 {
