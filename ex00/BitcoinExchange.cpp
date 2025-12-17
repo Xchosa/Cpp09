@@ -6,7 +6,7 @@
 /*   By: poverbec <poverbec@student.42heilbronn>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 10:08:28 by poverbec          #+#    #+#             */
-/*   Updated: 2025/12/17 10:47:36 by poverbec         ###   ########.fr       */
+/*   Updated: 2025/12/17 12:47:11 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void readInputandPrintBitcoin(std::string inputFilePath, std::map<std::string,do
         }
         std::string date = line.substr(0, found-1);
 		//std::cout << "date: " << date << std::endl;
-        if (convertDate(date) < 20090102 || convertDate(date) > 20251230)
+        if (convertDate(date) < 20090102)
         {
             std::cerr << "Error: Bad input ==>" << date << std::endl;
             continue;
@@ -57,7 +57,7 @@ void readInputandPrintBitcoin(std::string inputFilePath, std::map<std::string,do
         //std::map<std::string, double>::const_iterator DbMapFoundDate =  FindRateForDate(DbMap, date); // price of csv file
 		auto DbMapFoundDate =  FindRateForDate(DbMap, date); // price of csv file
         
-		std::cout << "test" << std::endl;
+		//std::cout << "test" << std::endl;
 		std::cout << "matching line in data Base:" << "[" << DbMapFoundDate->first  << " | " << DbMapFoundDate->second  << "]" << std::endl;
 		//std::cout << "price: " << DbMapFoundDate->second << std::endl;
         //colorprint(DbMapFoundDate->first, GREEN);
@@ -66,6 +66,13 @@ void readInputandPrintBitcoin(std::string inputFilePath, std::map<std::string,do
         //if(!amount)
         //    continue;
         //line.substr(found, line.end())
+
+
+
+
+		
+
+		// mulitplizieren 
         
     }
     BtcFile.close();
@@ -103,10 +110,10 @@ double convertDate(const std::string &date)
 
 std::map<std::string, double>::const_iterator FindRateForDate(const std::map<std::string, double >& DbMap, const std::string& date)
 {
-	std::cout << "DEBUG: FindRateForDate called with date: " << date << std::endl;
+	//std::cout << "DEBUG: FindRateForDate called with date: " << date << std::endl;
 	if(DbMap.empty())
 		throw std::out_of_range("Error: database is empty");
-	auto it = DbMap.find(date);
+	auto it = DbMap.find(date); // 2011-01-03 != 2011-01-3 -> schneidet die ab im der data base -> wird nicht richtig eingelesen. 
 	
 	
 	//std::map<std::string, double>::const_iterator it = DbMap.find(date);
@@ -120,7 +127,7 @@ std::map<std::string, double>::const_iterator FindRateForDate(const std::map<std
 	else 
 	{
 		double doubleDate  = convertDate(date);
-		std::cout << "DEBUG: After convertDate: " << std::to_string(doubleDate)<< std::endl;
+		//std::cout << "DEBUG: After convertDate: " << std::to_string(doubleDate)<< std::endl;
 		double closestDate = 20090102;
 		std::map<std::string, double>::const_iterator iter2 = DbMap.end();
 		for (auto iter = DbMap.begin(); iter != DbMap.end(); iter++ )
@@ -147,8 +154,8 @@ std::map<std::string, double>::const_iterator FindRateForDate(const std::map<std
 			//colorprint(iter2->first, GREEN);
 		}
 		//return iter2->second;// 
-		std::cout << "DEBUG: iter2 return value: " << iter2->first << std::endl;
-		std::cout << "DEBUG: After convertDate: " << std::to_string(iter2->second)<< std::endl;
+		//std::cout << "DEBUG: iter2 return value: " << iter2->first << std::endl;
+		//std::cout << "DEBUG: After convertDate: " << std::to_string(iter2->second)<< std::endl;
 		return(iter2);
 	}
 	

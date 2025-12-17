@@ -6,7 +6,7 @@
 /*   By: poverbec <poverbec@student.42heilbronn>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 18:02:16 by poverbec          #+#    #+#             */
-/*   Updated: 2025/12/16 18:15:13 by poverbec         ###   ########.fr       */
+/*   Updated: 2025/12/17 12:42:19 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ std::map<std::string,double> loadDataBase(std::string dbPath)
 		}
 		//std::cout << "Print trimmed line before printing " << line << std::endl;
 		
-		std::string date = line.substr (0,comma -1);
+		std::string date = line.substr (0,comma);
 		//std::cout << date << std::endl;
 		std::string value = line.substr(comma + 1);
 		//std::cout << value << std::endl;
