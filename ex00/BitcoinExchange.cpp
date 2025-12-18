@@ -6,7 +6,7 @@
 /*   By: poverbec <poverbec@student.42heilbronn>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 10:08:28 by poverbec          #+#    #+#             */
-/*   Updated: 2025/12/17 19:58:34 by poverbec         ###   ########.fr       */
+/*   Updated: 2025/12/18 10:08:23 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,30 +20,56 @@
 
 #include "BitcoinExchange.hpp"
 
-
-bool checkValidDate(std::string data)
+std::map<std::string,double> loadDataBase(std::string dbPath)
 {
-	double dataDb = convertDate(data);
-	if (dataDb < 20090102) /// implent boool
-    {
-        std::cerr << "Error: Bad input: invalid year ==> " << data << std::endl;
-		return false;
-    }
-	double dataMM = convertDate(data.substr(5,2));
-	if (dataMM > 12)
+	std::map < std::string, double> DbMap;
+	//std::cout << dbPath <<std::endl;
+	std::ifstream BtcFile(dbPath.c_str());
+	if(!BtcFile.is_open())
 	{
-        std::cerr << "Error: Bad input: invalid month ==> " << data << std::endl;
-		return false;
-    }
-	double dataDD = convertDate(data.substr(7,2));
-	// 31 /30  + schalt jahre 
-	if(dataDD > 31)
+		throw std::runtime_error ("could not open DataBase");
+	}
+	std::string line;
+    while(std::getline(BtcFile, line))
 	{
-        std::cerr << "Error: Bad input: invaild day ==> " << data << std::endl;
-		return false;
-    }//std::cout << std::to_string(dataMM) << std::endl;
-	return true;
+		trim(line);
+		if(line.empty())
+			continue;
+		if(line.find("date") == 0)
+			continue;;
+		std::size_t comma = line.find(",");
+		if(comma == std::string::npos)
+		{
+			std::cerr << "invalid line" << std::endl;
+			continue;
+		}
+		//std::cout << "Print trimmed line before printing " << line << std::endl;
+		
+		std::string date = line.substr (0,comma);
+		//std::cout << date << std::endl;
+		std::string value = line.substr(comma + 1);
+		//std::cout << value << std::endl;
+		try
+		{
+			double valuedb = std::stod(value);
+			DbMap.insert({date, valuedb});
+		}
+		catch(const std::exception& e)
+		{
+			std::cerr << "stod: " << e.what() << " (line: " << line << ")" << '\n';
+			continue;
+		}
+	}
+	if (DbMap.empty())
+		std::cout << "DbMap is empty"<< std::endl;
+	//else
+	//{
+	//	auto last = DbMap.end(); // pointer to last iterator
+	//	//std::cout << "DbMap filled last line :" << "[" << last->first  << " | " << last->second  << "]" << std::endl;
+	//}
+	testToFile(DbMap);
 	
+	return DbMap;
 };
 
 
@@ -63,7 +89,6 @@ void readInputandPrintBitcoin(std::string inputFilePath, std::map<std::string,do
 			continue;
 		if(line.find("date | value") == 0)
 			continue;;
-		//std::cout << "Input file: " << line << std::endl;
         size_t found = line.find("|");
         //if (found == std::string::npos)
         //{
@@ -71,22 +96,10 @@ void readInputandPrintBitcoin(std::string inputFilePath, std::map<std::string,do
         //    continue;
         //}
         std::string date = line.substr(0, found-1);
-		//std::cout << "date: " << date << std::endl;
 		if(checkValidDate(date) == false)
         	continue;
-        
-        //std::map<std::string, double>::const_iterator DbMapFoundDate =  FindRateForDate(DbMap, date); // price of csv file
 		auto DbMapFoundDate =  FindRateForDate(DbMap, date); // price of csv file
-		
-        
-		//std::cout << "test" << std::endl;
-		//std::cout << "matching line in data Base:" << "[" << DbMapFoundDate->first  << " | " << DbMapFoundDate->second  << "]" << std::endl;
-		//std::cout << "price: " << DbMapFoundDate->second << std::endl;
-        //colorprint(DbMapFoundDate->first, GREEN);
-        
         double amountDB = DbMapFoundDate->second;
-	
-		
         std::string amount_input = line.substr(found + 1);
 		trim(amount_input);
 		if(amount_input.size() == 0)
@@ -108,8 +121,6 @@ void readInputandPrintBitcoin(std::string inputFilePath, std::map<std::string,do
 		}
 		double value = amountDB * amount_inputdb ;
 		std::cout << DbMapFoundDate->first << " =>" << amount_input << " = " <<  value << std::endl;
-		// mulitplizieren 
-        
     }
     BtcFile.close();
 }
@@ -117,15 +128,8 @@ void readInputandPrintBitcoin(std::string inputFilePath, std::map<std::string,do
 double convertDate(const std::string &date)
 {
 	std::string stringDate = date;
-	//std::cout << "date converted before: " << stringDate << std::endl;
-	
 	auto newEnd = std::remove(stringDate.begin(), stringDate.end(), '-');
 	stringDate.erase(newEnd, stringDate.end());
-	
-
-	// seperate function check 5 und 6 position <= 12
-	// separate function 7 und 8 position <= 31 (if 1,3,5,7,8, 10, 12 -> 31 else 30) 
-	//std::cout << "date converted: " << stringDate << std::endl;
 	try
 	{
 		double convertedDate = std::stod(stringDate);
@@ -144,14 +148,9 @@ std::map<std::string, double>::const_iterator FindRateForDate(const std::map<std
 	if(DbMap.empty())
 		throw std::out_of_range("Error: database is empty");
 	auto it = DbMap.find(date); // 2011-01-03 != 2011-01-3 -> schneidet die ab im der data base -> wird nicht richtig eingelesen. 
-	
-	
-	//std::map<std::string, double>::const_iterator it = DbMap.find(date);
-	
 	if (it != DbMap.end())
 	{
 		//std::cout << "matching Date found:" << "[" << it->first  << " | " << it->second  << "]" << std::endl;
-		//colorprint(it->first, GREEN);
 		return (it);
 	}
 	else 
@@ -177,10 +176,8 @@ std::map<std::string, double>::const_iterator FindRateForDate(const std::map<std
 		}
 		if (iter2 != DbMap.end())
 		{
-			//iter2 = std::prev(DbMap.end());
-			//std::cout << 
+
 			//std::cout << "matching Date found (closest):" << "[" << iter2->first  << " | " << iter2->second  << "]" << std::endl;
-			
 			//colorprint(iter2->first, GREEN);
 		}
 		//return iter2->second;// 

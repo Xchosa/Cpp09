@@ -6,7 +6,7 @@
 /*   By: poverbec <poverbec@student.42heilbronn>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 18:02:16 by poverbec          #+#    #+#             */
-/*   Updated: 2025/12/17 18:11:58 by poverbec         ###   ########.fr       */
+/*   Updated: 2025/12/18 10:08:19 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,56 +55,64 @@ void trim(std::string &str)
 	str = str.substr(s1, s2 - s1 + 1);
 }
 
-std::map<std::string,double> loadDataBase(std::string dbPath)
+
+
+
+
+bool Schaltjahr(int dataYY, int dataMM, int dataDD)
 {
-	std::map < std::string, double> DbMap;
-	//std::cout << dbPath <<std::endl;
-	std::ifstream BtcFile(dbPath.c_str());
-	if(!BtcFile.is_open())
+	if(dataMM == 4 || dataMM == 6 || dataMM == 9 || dataMM == 11)
 	{
-		throw std::runtime_error ("could not open DataBase");
+		if(dataDD > 30)
+			return false;
 	}
-	std::string line;
-    while(std::getline(BtcFile, line))
+	if(dataMM == 2)
 	{
-		trim(line);
-		if(line.empty())
-			continue;
-		if(line.find("date") == 0)
-			continue;;
-		std::size_t comma = line.find(",");
-		if(comma == std::string::npos)
+		if( (dataYY % 100 == 0 ) && ( dataYY % 400 == 0))
 		{
-			std::cerr << "invalid line" << std::endl;
-			continue;
+			if(dataDD > 29)
+				return false;
 		}
-		//std::cout << "Print trimmed line before printing " << line << std::endl;
-		
-		std::string date = line.substr (0,comma);
-		//std::cout << date << std::endl;
-		std::string value = line.substr(comma + 1);
-		//std::cout << value << std::endl;
-		try
+		if ((dataYY % 4 == 0 ) && (dataYY % 100 != 0 ))
 		{
-			double valuedb = std::stod(value);
-			DbMap.insert({date, valuedb});
+			if(dataDD > 29)
+				return false;
 		}
-		catch(const std::exception& e)
+		else if (dataDD > 28)
 		{
-			std::cerr << "stod: " << e.what() << " (line: " << line << ")" << '\n';
-			continue;
+			return false;
 		}
 	}
-	if (DbMap.empty())
-		std::cout << "DbMap is empty"<< std::endl;
-	//else
-	//{
-	//	auto last = DbMap.end(); // pointer to last iterator
-	//	//std::cout << "DbMap filled last line :" << "[" << last->first  << " | " << last->second  << "]" << std::endl;
-	//}
-	testToFile(DbMap);
-	
-	return DbMap;
+	return true;
+}
+
+
+
+bool checkValidDate(std::string data)
+{
+	int dataDb = convertDate(data);
+	if (dataDb < 20090102) /// implent boool
+    {
+        std::cerr << "Error: Bad input: invalid year ==> " << data << std::endl;
+		return false;
+    }
+	int dataMM = convertDate(data.substr(5,2));
+	if (dataMM > 12)
+	{
+        std::cerr << "Error: Bad input: invalid month ==> " << data << std::endl;
+		return false;
+    }
+	int dataDD = convertDate(data.substr(7,2));
+	if(dataDD > 31)
+	{
+		std::cerr << "Error: Bad input: invaild day ==> " << data << std::endl;
+		return false;
+    }//std::cout << std::to_string(dataMM) << std::endl;
+	int dataYY = convertDate(data.substr(0,4));
+	if (Schaltjahr(dataYY, dataMM, dataDD) == false)
+	{
+		std::cerr << "Error: Bad input: invaild day ==> " << data << std::endl;
+		return false;
+	}
+	return true;
 };
-
-

@@ -6,7 +6,7 @@
 /*   By: poverbec <poverbec@student.42heilbronn>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/27 16:26:46 by poverbec          #+#    #+#             */
-/*   Updated: 2025/12/17 12:43:15 by poverbec         ###   ########.fr       */
+/*   Updated: 2025/12/18 10:09:44 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,20 +41,7 @@ int main(int argc, char** argv)
     return 0;
 }
 
-//double convertAmount(std::string line, size_t found)
-//{
 
-//    std::string amoundStr = line.substr(found, line.end(), (line.size() - found));
-   
-//    double amount;
-//    amount = std::atol(amoundStr);
-//    if(!std::atol(amoundStr))
-//    {
-//        std::cerr << "Error: not a positiv number." << std::endl;
-//    }
-//    amo
-//    // error for negative number
-//    // error for to big number, 
 //}
 /*
 2022-03-29
