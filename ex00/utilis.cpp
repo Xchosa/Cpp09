@@ -6,7 +6,7 @@
 /*   By: poverbec <poverbec@student.42heilbronn>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/16 18:02:16 by poverbec          #+#    #+#             */
-/*   Updated: 2025/12/18 10:08:19 by poverbec         ###   ########.fr       */
+/*   Updated: 2025/12/18 10:55:35 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void testToFile(std::map<std::string,double> DbMap)
         std::cerr << "could not open output file\n";
         return;
     }
-	for (const auto &content : DbMap)
+	for (auto &content : DbMap)
 	{
 		myfile <<  content.first << "|" << content.second << '\n';
 	}
@@ -56,32 +56,31 @@ void trim(std::string &str)
 }
 
 
-
-
-
 bool Schaltjahr(int dataYY, int dataMM, int dataDD)
 {
+	if (dataMM < 1 || dataMM > 12 || dataDD < 1 || dataDD > 31)
+		return false;
 	if(dataMM == 4 || dataMM == 6 || dataMM == 9 || dataMM == 11)
 	{
 		if(dataDD > 30)
 			return false;
 	}
-	if(dataMM == 2)
-	{
-		if( (dataYY % 100 == 0 ) && ( dataYY % 400 == 0))
-		{
-			if(dataDD > 29)
-				return false;
-		}
-		if ((dataYY % 4 == 0 ) && (dataYY % 100 != 0 ))
-		{
-			if(dataDD > 29)
-				return false;
-		}
-		else if (dataDD > 28)
-		{
-			return false;
-		}
+	else if(dataMM == 2)
+    {
+        if( (dataYY % 100 == 0 ) && ( dataYY % 400 == 0))
+        {
+            if(dataDD > 29)
+                return false;
+        }
+        else if ((dataYY % 4 == 0 ) && (dataYY % 100 != 0 ))
+        {
+            if(dataDD > 29)
+                return false;
+        }
+        else if (dataDD > 28)
+        {
+            return false;
+        }
 	}
 	return true;
 }
@@ -102,12 +101,12 @@ bool checkValidDate(std::string data)
         std::cerr << "Error: Bad input: invalid month ==> " << data << std::endl;
 		return false;
     }
-	int dataDD = convertDate(data.substr(7,2));
+	int dataDD = convertDate(data.substr(8,2));
 	if(dataDD > 31)
 	{
 		std::cerr << "Error: Bad input: invaild day ==> " << data << std::endl;
 		return false;
-    }//std::cout << std::to_string(dataMM) << std::endl;
+    }
 	int dataYY = convertDate(data.substr(0,4));
 	if (Schaltjahr(dataYY, dataMM, dataDD) == false)
 	{
@@ -116,3 +115,4 @@ bool checkValidDate(std::string data)
 	}
 	return true;
 };
+

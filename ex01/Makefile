@@ -6,7 +6,7 @@ CXXFLAGS = -Wall -Wextra -Werror -std=c++17
 #CXXFLAGS += -fsanitize=address -fno-omit-frame-pointer -O1
 
 # Target executable
-TARGET = btc
+TARGET = RPN
 
 # Source files
 SRCS =	main.cpp 
