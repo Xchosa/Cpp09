@@ -2,7 +2,7 @@
 CXX = c++
 
 # Compiler flags
-CXXFLAGS = -Wall -Wextra -Werror -std=c++17
+CXXFLAGS = -Wall -Wextra -Werror -std=c++17 -g
 #CXXFLAGS += -fsanitize=address -fno-omit-frame-pointer -O1
 
 # Target executable

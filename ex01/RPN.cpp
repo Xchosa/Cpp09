@@ -6,7 +6,7 @@
 /*   By: poverbec <poverbec@student.42heilbronn>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 10:11:38 by poverbec          #+#    #+#             */
-/*   Updated: 2025/12/19 14:53:42 by poverbec         ###   ########.fr       */
+/*   Updated: 2025/12/19 17:05:26 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,18 @@
 #include "stack"
 #include "sstream"
 #include "exception"
+
+void check_stack(std::stack<float> stack)
+{
+	std::stack<float> stackb(stack);
+	std::cout << "Stack controll" << std::endl;
+	while(!stackb.empty())
+	{
+		std::cout << "[" << stackb.top() << "]" << '\n';
+		stackb.pop();
+	}
+}
+
 
 bool checkValid(std::string number)
 {
@@ -52,17 +64,17 @@ bool isoperator(std::string number)
 void addStack(std::string token, std::stack<float> &stack)
 {
 
-	std::cout << " check: [ hallo]" << '\n';
+	// std::cout << " check: [ hallo]" << '\n';
 	float nbr = std::stof(token);
 
 	stack.push(nbr);
-	std::cout << " check: [" << stack.top() << "]" << '\n';
+	check_stack(stack);
 }
 
 void operation(std::stack<float> &stack, std::string token)
 {
 
-	if (stack.size() != 2)
+	if (stack.size() > 2)
 		throw std::invalid_argument("Error not 2 numbers");
 
 	float a = stack.top();
@@ -92,11 +104,47 @@ void operation(std::stack<float> &stack, std::string token)
 	stack.push(result);
 }
 
-int RPN(std::string number)
+void operation3(std::stack<float> &stack, std::string token)
+{
+
+	if (stack.size() > 3)
+		throw std::invalid_argument("Error not 2 numbers");
+
+	float a = stack.top();
+	stack.pop();
+	float b = stack.top();
+	stack.pop();
+	float c = stack.top();
+	stack.pop();
+	float result;
+
+	switch (token[0])
+	{
+	case ('+'):
+		result = b + c;
+		break;
+	case ('-'):
+		result = b - c;
+		break;
+	case ('*'):
+		result = b * c;
+		break;
+	case ('/'):
+		result = b / c;
+		break;
+
+	default:
+		throw std::invalid_argument("Error invalid input");
+	}
+	stack.push(a);
+	stack.push(result);
+}
+
+float RPN(std::string number)
 {
 	std::stack<float> stack;
 	std::istringstream ss(number);
-	
+
 	std::string token;
 	std::cout << "size of string: " << std::to_string(number.size()) << std::endl;
 
@@ -106,7 +154,6 @@ int RPN(std::string number)
 
 		if (isdigit(token[0]) && isNotNegativ(token))
 		{
-			std::cout << "Stack Check 2" << std::endl;
 			try
 			{
 				addStack(token, stack);
@@ -121,7 +168,11 @@ int RPN(std::string number)
 		{
 			try
 			{
-				operation(stack, token);
+				if(stack.size() == 2)
+					operation(stack, token);
+				if(stack.size() == 3)
+					operation3(stack, token);
+					
 			}
 			catch (const std::exception &e)
 			{
@@ -131,23 +182,24 @@ int RPN(std::string number)
 		}
 		if (!stack.empty())
 		{
-			std::cout << "Stack Check" << std::endl;
+			std::cout << "Stack Check in the loop" << std::endl;
 			std::cout << "[" << stack.top() << "]" << '\n';
+			// if (stack.size() == 1)
+			//	return stack.top();
 		}
 	}
 
 	std::cout << "Stack Check" << std::endl;
 
-	std::stack<float> stackb(stack);
 
-	while (!stackb.empty())
-	{
-		std::cout << "[" << stackb.top() << "]" << '\n';
-		stackb.pop();
-	}
+	if (stack.empty())
+		return 0;
 
-	return 0;
+	float result = stack.top();
+	std::cout << "[" << stack.top() << "]" << '\n';
+	return result;
 }
+
 
 /*
 

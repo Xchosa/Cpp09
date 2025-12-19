@@ -6,7 +6,7 @@
 /*   By: poverbec <poverbec@student.42heilbronn>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 10:46:49 by poverbec          #+#    #+#             */
-/*   Updated: 2025/12/19 15:36:07 by poverbec         ###   ########.fr       */
+/*   Updated: 2025/12/19 16:48:05 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ int main(int argc, char **argv)
 		return 0;
 	try
 	{
-		int result = RPN(number);
-		std::cout << std::to_string(result) << std::endl;
+		float result = RPN(number);
+		std::cout << "result: "<< std::to_string(result) << std::endl;
 	}
 	catch(const std::exception& e)
 	{
