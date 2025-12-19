@@ -6,7 +6,7 @@
 /*   By: poverbec <poverbec@student.42heilbronn>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 10:46:49 by poverbec          #+#    #+#             */
-/*   Updated: 2025/12/18 12:06:25 by poverbec         ###   ########.fr       */
+/*   Updated: 2025/12/18 14:45:13 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,10 @@ only int numbers no brackets
 int main(int argc, char **argv)
 {
 	if(argc != 2)
+	{
 		std::cerr << "only one argument allowed \n usage: ./RPN \"x y + " << std::endl; 
+		return 1;
+	}
 	std::string number = argv[1];
 	if (checkValid (number) == false)
 		return 0;
