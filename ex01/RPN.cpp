@@ -6,7 +6,7 @@
 /*   By: poverbec <poverbec@student.42heilbronn>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 10:11:38 by poverbec          #+#    #+#             */
-/*   Updated: 2025/12/19 12:21:16 by poverbec         ###   ########.fr       */
+/*   Updated: 2025/12/19 14:53:42 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,7 @@ int RPN(std::string number)
 {
 	std::stack<float> stack;
 	std::istringstream ss(number);
+	
 	std::string token;
 	std::cout << "size of string: " << std::to_string(number.size()) << std::endl;
 
