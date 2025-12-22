@@ -6,7 +6,7 @@
 /*   By: poverbec <poverbec@student.42heilbronn>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 10:11:50 by poverbec          #+#    #+#             */
-/*   Updated: 2025/12/19 16:23:13 by poverbec         ###   ########.fr       */
+/*   Updated: 2025/12/22 10:05:28 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,15 @@
 #include <algorithm>
 #include <iterator>
 #include <vector>
+#include <sstream>
 
-#include <deque>
+#include <stack>
 
-bool checkValid (std::string number );
+bool checkValid(std::string number);
+bool isoperator(std::string number);
+bool isNotNegativ(std::string number);
+void check_stack(std::stack<float> stack);
+void addStack(std::string token, std::stack<float> &stack);
+void checkSyntax(std::string token, std::stack<float> &stack, std::istringstream &NbrStream);
 
 float RPN(std::string number);
-
-
