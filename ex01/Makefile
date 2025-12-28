@@ -41,6 +41,7 @@ clean:
 fclean: clean
 	rm -f $(TARGET)
 	rm -f *.txt
+	rm -r -f objects
 
 re: fclean all
 

@@ -43,6 +43,8 @@ clean:
 fclean: clean
 	rm -f $(TARGET)
 	rm -f *.txt
+	rm -r -f objects
+	rm -f DataBase/output.txt
 
 re: fclean all
 
