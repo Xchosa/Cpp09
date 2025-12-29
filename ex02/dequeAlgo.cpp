@@ -6,7 +6,7 @@
 /*   By: poverbec <poverbec@student.42heilbronn>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 20:21:04 by poverbec          #+#    #+#             */
-/*   Updated: 2025/12/29 10:26:36 by poverbec         ###   ########.fr       */
+/*   Updated: 2025/12/29 16:35:04 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,11 @@ void PmergeMe::SortingDeque(const PmergeMe &object)
 
 	std::deque<int> tmpDeque = object._deque;
 
-	
-	
 	mergeInsertionRecur(tmpDeque);
 	// sort a_chain and make the same move with b stack;
-	
-	
-	//int jabcobstal(n);
-	//std::cout << std::endl;
+
+	// int jabcobstal(n);
+	// std::cout << std::endl;
 
 	std::cout << "\n After Deque: ";
 	for (size_t value = 0; value < object._deque.size(); value++)
@@ -47,63 +44,132 @@ void PmergeMe::SortingDeque(const PmergeMe &object)
 	}
 	// recursive sortieren mit jakobstahl folge
 	_deque = tmpDeque;
-	
 }
-
-
-
 
 void PmergeMe::mergeInsertionRecur(std::deque<int> &container)
 {
-	if(container.size() <= 1)
+	if (container.size() <= 1)
 		return;
 
-	std::deque<int> a_chain;
-	std::deque<int> b_chain;
+	std::deque<std::pair<int, int>> pairs;
 
-	for (size_t i = 0; i <= container.size() - 2; i += 2)
+	int leftover = -1;
+
+	for (size_t i = 0; i <= container.size() - 1; i += 2)
 	{
 		int first = container[i];
 		int second = container[i + 1];
 
+		// bigger nbr in a
 		if (first > second)
 		{
-			a_chain.emplace_back(first);
-			b_chain.emplace_back(second);
+			pairs.push_back({first, second});
 		}
 		else
 		{
-			a_chain.emplace_back(second);
-			b_chain.emplace_back(first);
+			pairs.push_back({second, first});
 		}
 	}
 	if (container.size() % 2 == 1)
-        b_chain.emplace_back(container.back());
+		leftover = container.back();
 
+	// first round winner
+	std::deque<int> winner;
 
-	std::cout << "\n A Chain: ";
-	for (size_t value = 0; value < a_chain.size(); value++)
+	// only winners/bigger numbers get called
+	//  again a 2 number comparison of the winners (each winner has an atached  b number)
+	for (auto &iter : pairs)
 	{
-		std::cout << "[" << a_chain[value] << "] ";
+		winner.emplace_back(iter.first);
 	}
-	std::cout << "\n B Chain: ";
-	for (size_t value = 0; value < b_chain.size(); value++)
+	
+	std::cout << "winner chain" << std::endl;
+	for (int value : winner)
 	{
-		std::cout << "[" << b_chain[value] << "] ";
+		std::cout << "["<< value << "] ";
+	}
+	std::cout << std::endl;
+	// call algo rekursive
+	mergeInsertionRecur(winner);
+
+	// biggest nbr left, now winner chain gets rekursion pops up (see pair values) 
+	// the next winner put in the a_stack -> is sorted at the end
+	// each random b gets pushed into b_stack
+	// bubbeling up 
+	std::cout << "winner chain after sorting " << std::endl;
+	for (int value : winner)
+	{
+		std::cout << "["<< value << "] ";
 	}
 	std::cout << std::endl;
 	
-	// call algo rekursive
-	
-	mergeInsertionRecur(container);
-	std::cout << "a1: " <<container[0] << std::endl;
+	std::deque<int> a_chain;
+	std::deque<int> b_chain;
 
-	for( int value : b_chain)
+	// structure bindings 
+	std::cout << "\n pair values : ";
+	for (auto [a,b] : pairs)
 	{
-		auto pos = std::lower_bound(a_chain.begin(), a_chain.end(), value);
-		a_chain.insert(pos, value);
+		std::cout << "[" << a << "|" << b << "] ";
+	}
+	//std::deque<std::pair<int, int>> winnerPairs;
+
+	for (int sortedVal : winner)
+	{
+		for (auto iter = pairs.begin(); iter != pairs.end(); iter++)
+		{
+			if (iter->first == sortedVal) // starts with 0 until no winner left
+			{
+				a_chain.emplace_back(iter->first);
+				b_chain.emplace_back(iter->second);
+				
+				pairs.erase(iter);
+				break;
+			}
+		}
 	}
 
-	container = a_chain;
+	//std::cout << "\n pair values : ";
+	//for (auto [a,b] : pairs)
+	//{
+	//	std::cout << "[" << a << "|" << b << "] ";
+	//}
+
+	std::deque<int> mainChain = a_chain;
+	if(!b_chain.empty())
+	{
+		mainChain.insert(mainChain.begin(), b_chain[0]);
+	}
+	// add after each recursive iteration the leftover in the b chain
+	if (leftover != -1)
+		b_chain.emplace_back(leftover);
+
+	std::cout << "\n A Chain : ";
+	for (size_t value : a_chain)
+	{
+		std::cout << "[" << value << "] ";
+	}
+	std::cout << "\n B Chain : ";
+	for (size_t value : b_chain)
+	{
+		std::cout << "[" << value << "] ";
+	}
+	std::cout << std::endl;
 	
+
+	// simplyfied lowerbounds only works on sorted containers...
+	for(size_t i = 1; i < b_chain.size() ; i++)
+	{
+		auto pos = std::lower_bound(mainChain.begin(),mainChain.end(), b_chain[i] );
+		mainChain.insert(pos, b_chain[i]);
+	}
+	std::cout << "\n Main Chain : ";
+	for (size_t value : mainChain)
+	{
+		std::cout << "[" << value << "] ";
+	}
+	std::cout << std::endl;
+	
+	// bubbeling up
+	container = mainChain;
 }
