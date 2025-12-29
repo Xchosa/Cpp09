@@ -6,7 +6,7 @@
 /*   By: poverbec <poverbec@student.42heilbronn>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 11:01:05 by poverbec          #+#    #+#             */
-/*   Updated: 2025/12/28 20:08:32 by poverbec         ###   ########.fr       */
+/*   Updated: 2025/12/29 10:26:47 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,14 @@ public:
 
 	void fillDequeVector(std::string number);
 	void SeqBeforeSorting(const PmergeMe &object);
+
+
+	
 	void SortingDeque(const PmergeMe &object);
+	void mergeInsertionRecur(std::deque<int> &container);
+	
+	
+	
 	void SortingVector(const PmergeMe &object);
 
 	bool isSorted(const PmergeMe &object);
