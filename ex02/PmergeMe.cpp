@@ -6,7 +6,7 @@
 /*   By: poverbec <poverbec@student.42heilbronn>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 10:11:38 by poverbec          #+#    #+#             */
-/*   Updated: 2025/12/28 20:22:37 by poverbec         ###   ########.fr       */
+/*   Updated: 2025/12/30 17:29:02 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include "sstream"
 #include "exception"
 
-PmergeMe::PmergeMe() : _deque(0)
+PmergeMe::PmergeMe() : _deque(0) , _vector(0)
 {
 }
 PmergeMe::~PmergeMe() {};
@@ -34,6 +34,30 @@ PmergeMe &PmergeMe::operator=(const PmergeMe &object)
 	return (*this);
 }
 
+// Rekusive formel (J_{n}=  J_{n-1}+2 * J_{n-2}   für (n >= 2).
+// dynamic programming - each function calculated one 
+// time complexity = O(n)
+// auxiliary Space = O(n) // helping space
+
+//dp[0]=0 → dp[1]=1 → dp[2]=1 → dp[3]=3 → dp[4]=5 → dp[5]=11
+int PmergeMe::Jacobsthal(int n)
+{
+	if (n == 0)
+		return 0;
+	// base case
+	if (n == 1)
+		return 1;
+	// recursive step.
+	
+	int J[n + 1];
+	J[0]= 0;
+	J[1] = 1;
+	for( int i = 2; i <= n ; i++) // n >=2
+	{
+		J[n] = J[n -1] + 2 * J[n-2];
+	}
+	return J[n];
+}
 bool checkValid(std::string number)
 {
 	std::size_t invalidchar = number.find_first_not_of("1234567890");
@@ -84,7 +108,7 @@ bool PmergeMe::isSorted(const PmergeMe &object)
 	return true;
 }
 
-void PmergeMe::printTimesDeque(clock_t startTime, clock_t endTime , const PmergeMe &object)
+void PmergeMe::printTimesDeque(clock_t startTime, clock_t endTime , std::deque<int> object)
 {
 	double timeDeque = static_cast<double>(endTime - startTime) / CLOCKS_PER_SEC;
 	double intpart;
@@ -92,11 +116,11 @@ void PmergeMe::printTimesDeque(clock_t startTime, clock_t endTime , const Pmerge
 	fractpart = roundf(fractpart * 100000.0) / 100000.0;
 	double result = intpart + fractpart;
 
-	std::cout << "Time to process a range of " << object._deque.size()
+	std::cout << "Time to process a range of " << object.size()
 			  << " elements with std::deque : "
 			  << result << " us" << std::endl;
 }
-void PmergeMe::printTimesVector(clock_t startTime, clock_t endTime , const PmergeMe &object)
+void PmergeMe::printTimesVector(clock_t startTime, clock_t endTime , std::vector<int> object)
 {
 	double timeDeque = static_cast<double>(endTime - startTime) / CLOCKS_PER_SEC;
 	double intpart;
@@ -104,7 +128,7 @@ void PmergeMe::printTimesVector(clock_t startTime, clock_t endTime , const Pmerg
 	fractpart = roundf(fractpart * 100000.0) / 100000.0;
 	double result = intpart + fractpart;
 
-	std::cout << "Time to process a range of " << object._vector.size()
+	std::cout << "Time to process a range of " << object.size()
 			  << " elements with std::vector : "
 			  << result << " us" << std::endl;
 }

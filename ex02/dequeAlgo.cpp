@@ -6,12 +6,13 @@
 /*   By: poverbec <poverbec@student.42heilbronn>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 20:21:04 by poverbec          #+#    #+#             */
-/*   Updated: 2025/12/29 16:35:04 by poverbec         ###   ########.fr       */
+/*   Updated: 2025/12/30 13:12:33 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PmergeMe.hpp"
 
+#include <bits/stdc++.h>
 // pairwise comparison [n/2] if odd => leave last element out
 // sort [n/2] larger numbers -> by merge insertion
 //  insert remaing bs in into main-chain a -> by binary insertion
@@ -28,22 +29,25 @@
 
 void PmergeMe::SortingDeque(const PmergeMe &object)
 {
-
+	clock_t startTime;
+	clock_t endTime;
 	std::deque<int> tmpDeque = object._deque;
-
+	startTime = clock();
 	mergeInsertionRecur(tmpDeque);
+	endTime = clock();
 	// sort a_chain and make the same move with b stack;
-
+	printTimesDeque(startTime, endTime, tmpDeque);
+	
 	// int jabcobstal(n);
 	// std::cout << std::endl;
 
 	std::cout << "\n After Deque: ";
-	for (size_t value = 0; value < object._deque.size(); value++)
+	for (int value : tmpDeque)
 	{
 		std::cout << "[" << value << "] ";
 	}
 	// recursive sortieren mit jakobstahl folge
-	_deque = tmpDeque;
+	//_deque = tmpDeque;
 }
 
 void PmergeMe::mergeInsertionRecur(std::deque<int> &container)
@@ -169,6 +173,7 @@ void PmergeMe::mergeInsertionRecur(std::deque<int> &container)
 		std::cout << "[" << value << "] ";
 	}
 	std::cout << std::endl;
+	
 	
 	// bubbeling up
 	container = mainChain;

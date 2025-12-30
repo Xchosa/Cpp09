@@ -6,7 +6,7 @@
 /*   By: poverbec <poverbec@student.42heilbronn>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 11:01:05 by poverbec          #+#    #+#             */
-/*   Updated: 2025/12/29 10:26:47 by poverbec         ###   ########.fr       */
+/*   Updated: 2025/12/30 13:55:35 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ class PmergeMe
 private:
 	std::deque<int> _deque;
 	std::vector<int> _vector;
+	int Jacobsthal(int n);
 
 public:
 	PmergeMe();
@@ -45,8 +46,9 @@ public:
 	
 	
 	void SortingVector(const PmergeMe &object);
-
+	
+	void mergeInsertionRecur(std::vector<int> &container);
 	bool isSorted(const PmergeMe &object);
-	void printTimesDeque(clock_t startTime, clock_t endTime, const PmergeMe &object);
-	void printTimesVector(clock_t startTime, clock_t endTime , const PmergeMe &object);
+	void printTimesDeque(clock_t startTime, clock_t endTime, std::deque<int> object);
+	void printTimesVector(clock_t startTime, clock_t endTime ,std::vector<int> object);
 };

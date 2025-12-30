@@ -6,7 +6,7 @@
 /*   By: poverbec <poverbec@student.42heilbronn>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 10:46:49 by poverbec          #+#    #+#             */
-/*   Updated: 2025/12/28 21:58:39 by poverbec         ###   ########.fr       */
+/*   Updated: 2025/12/30 12:24:21 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,8 @@ int main(int argc, char **argv)
 		return 1;
 	}
 	int i = 1;
-	clock_t startTime;
-	clock_t endTime;
+	//clock_t startTime;
+	//clock_t endTime;
 	try
 	{
 		PmergeMe PmM;
@@ -55,15 +55,15 @@ int main(int argc, char **argv)
 			// add to deque stack
 		} 
 		PmM.SeqBeforeSorting(PmM);
-		startTime = clock();
+		//startTime = clock();
 		PmM.SortingDeque(PmM);
-		endTime = clock();
-		PmM.printTimesDeque(startTime, endTime, PmM);
+		//endTime = clock();
+		//PmM.printTimesDeque(startTime, endTime, PmM);
 
-		startTime = clock();
+		//startTime = clock();
 		PmM.SortingVector(PmM);
-		endTime = clock();
-		PmM.printTimesVector(startTime, endTime, PmM);
+		//endTime = clock();
+		//PmM.printTimesVector(startTime, endTime, PmM);
 		
 		
 		
