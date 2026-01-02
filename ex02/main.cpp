@@ -6,7 +6,7 @@
 /*   By: poverbec <poverbec@student.42heilbronn>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 10:46:49 by poverbec          #+#    #+#             */
-/*   Updated: 2025/12/30 12:24:21 by poverbec         ###   ########.fr       */
+/*   Updated: 2026/01/02 12:19:30 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,15 +55,16 @@ int main(int argc, char **argv)
 			// add to deque stack
 		} 
 		PmM.SeqBeforeSorting(PmM);
-		//startTime = clock();
-		PmM.SortingDeque(PmM);
-		//endTime = clock();
-		//PmM.printTimesDeque(startTime, endTime, PmM);
+	
 
-		//startTime = clock();
+		
+		//PmM.SortingDeque(PmM);
+
+
+		
 		PmM.SortingVector(PmM);
-		//endTime = clock();
-		//PmM.printTimesVector(startTime, endTime, PmM);
+		
+	
 		
 		
 		
