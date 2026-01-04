@@ -6,7 +6,7 @@
 /*   By: poverbec <poverbec@student.42heilbronn>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/15 10:46:49 by poverbec          #+#    #+#             */
-/*   Updated: 2026/01/02 12:19:30 by poverbec         ###   ########.fr       */
+/*   Updated: 2026/01/04 20:23:44 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,7 @@ int main(int argc, char **argv)
 		} 
 		PmM.SeqBeforeSorting(PmM);
 	
-
-		
-		//PmM.SortingDeque(PmM);
-
-
-		
+		PmM.SortingDeque(PmM);
 		PmM.SortingVector(PmM);
 		
 	
@@ -79,3 +74,7 @@ int main(int argc, char **argv)
 
 
 	
+
+
+
+

@@ -6,7 +6,7 @@
 /*   By: poverbec <poverbec@student.42heilbronn>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 20:21:59 by poverbec          #+#    #+#             */
-/*   Updated: 2026/01/02 18:41:20 by poverbec         ###   ########.fr       */
+/*   Updated: 2026/01/04 20:49:55 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,14 @@ void PmergeMe::SortingVector(const PmergeMe &object)
 
 	printTimesVector(startTime, endTime, tmpVector);
 
-	std::cout << "\n After vector: ";
-	for (int value : tmpVector)
-	{
-		std::cout << "[" << value << "] ";
-	}
-
-	std::cout << std::endl;
-	_vector = tmpVector;
+	//std::cout << "\n After vector: ";
+	//for (int value : tmpVector)
+	//{
+	//	std::cout << "[" << value << "] ";
+	//}
+	//std::cout << std::endl;
+	
+	//object._vector = tmpVector;
 }
 
 void PmergeMe::mergeInsertionRecur(std::vector<int> &container)
@@ -61,7 +61,13 @@ void PmergeMe::mergeInsertionRecur(std::vector<int> &container)
 	{
 		winner.push_back(iter.first);
 	}
-
+	//std::cout << "pairs size: " << pairs.size() << " | winner size: " << winner.size() << std::endl;
+	//std::cout << "winner chain" << std::endl;
+	//for (int value : winner)
+	//{
+	//	std::cout << "["<< value << "] ";
+	//}
+	//std::cout << std::endl;
 	mergeInsertionRecur(winner);
 
 	std::vector<int> a_chain;
@@ -72,7 +78,7 @@ void PmergeMe::mergeInsertionRecur(std::vector<int> &container)
 	//{
 	//	std::cout << "[" << iter.first << "|" << iter.second << "]";
 	//}
-	std::cout << std::endl;
+	//std::cout << std::endl;
 
 	for (int value : winner)
 	{
@@ -88,6 +94,8 @@ void PmergeMe::mergeInsertionRecur(std::vector<int> &container)
 			}
 		}
 	}
+
+	
 	if (leftover != -1)
 		b_chain.emplace_back(leftover);
 
@@ -115,11 +123,11 @@ void PmergeMe::mergeInsertionRecur(std::vector<int> &container)
 	}
 
 	// filled with Jacobsthal numbers  3 5 11
-	for (int value : JacobsthalVector)
-	{
-		std::cout << "gruppen: " << " :" << value << std::endl;
-	}
-	// fehler liegt in den Jakob gruppen
+	//for (int value : JacobsthalVector)
+	//{
+	//	std::cout << "gruppen: " << " :" << value << std::endl;
+	//}
+	
 	// if jacVecotr = 3 -> insert 3 then 2
 	// if jacvec = 5 -> insert 5 then 4
 	// if jacvec = 11 -> insert 11 , 10 , 9,8 ,7,6
@@ -130,16 +138,27 @@ void PmergeMe::mergeInsertionRecur(std::vector<int> &container)
 	for (size_t i = 0; i < JacobsthalVector.size(); i++)
 	{
 		size_t currJac = JacobsthalVector[i];
-
 		size_t startIdx = std::min(currJac, b_chain.size()); // out of bounds check
+		
 		for (size_t j = startIdx; j > lastJacob; j--)
 		{
-			int target = b_chain[j - 1]; // b5 then b4
-			std::cout << "index inserted: " << (j - 1) << " | wert: ";
-			std::cout << target << std::endl;
+			int target = b_chain[j - 1];
+			
+			// partner in a_chain (unveraendert)
+			int targetPartner = a_chain[j-1];
+			
+			
+			size_t SearchLimit = std::distance(mainChain.begin(), targetPartner);
+			
+			// only search until partner value in mainChain
+			//std::cout << "index inserted: " << (j - 1) << " | wert: ";
+			//std::cout << target << std::endl;
 
-			// order ti insert [3, 2, 5, 4] jumps to the complicated first (first 5 then 4 )
-			auto it = std::lower_bound(mainChain.begin(), mainChain.end(), target);
+			// order insert [3, 2, 5, 4] jumps to the complicated first (first 5 then 4 )
+			
+			
+			auto it = std::lower_bound(mainChain.begin(), mainChain.begin()+ SearchLimit, target);
+			//auto it = std::lower_bound(mainChain.begin(), mainChain.end(), target);
 			mainChain.insert(it, target);
 		}
 		lastJacob = startIdx;
@@ -148,24 +167,24 @@ void PmergeMe::mergeInsertionRecur(std::vector<int> &container)
 	// for strict Ford Johnson -> make the range smaller -> not always manChain.end(); 
 	// only search until each pair -> so b_k <=  a_k not 
 
-	std::cout << "\n A Chain : ";
-	for (size_t value : a_chain)
-	{
-		std::cout << "[" << value << "] ";
-	}
-	std::cout << "\n B Chain : ";
-	for (size_t value : b_chain)
-	{
-		std::cout << "[" << value << "] ";
-	}
-	std::cout << std::endl;
+	//std::cout << "\n A Chain : ";
+	//for (size_t value : a_chain)
+	//{
+	//	std::cout << "[" << value << "] ";
+	//}
+	//std::cout << "\n B Chain : ";
+	//for (size_t value : b_chain)
+	//{
+	//	std::cout << "[" << value << "] ";
+	//}
+	//std::cout << std::endl;
 
-	std::cout << "\n Main Chain : ";
-	for (size_t value : mainChain)
-	{
-		std::cout << "[" << value << "] ";
-	}
-	std::cout << std::endl;
+	//std::cout << "\n Main Chain : ";
+	//for (size_t value : mainChain)
+	//{
+	//	std::cout << "[" << value << "] ";
+	//}
+	//std::cout << std::endl;
 
 	
 	container = mainChain;

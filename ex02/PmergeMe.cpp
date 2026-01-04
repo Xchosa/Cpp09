@@ -6,7 +6,7 @@
 /*   By: poverbec <poverbec@student.42heilbronn>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 10:11:38 by poverbec          #+#    #+#             */
-/*   Updated: 2026/01/02 12:00:04 by poverbec         ###   ########.fr       */
+/*   Updated: 2026/01/04 19:39:38 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ void PmergeMe::fillDequeVector(std::string number)
 
 void PmergeMe::SeqBeforeSorting(const PmergeMe &object)
 {
-	std::cout << "\n Before: ";
+	std::cout << "\nBefore: ";
 	for (int value : object._deque)
 	{
 		std::cout << "[" << value << "] ";
@@ -136,26 +136,28 @@ bool PmergeMe::isSorted(const PmergeMe &object)
 void PmergeMe::printTimesDeque(clock_t startTime, clock_t endTime , std::deque<int> object)
 {
 	double timeDeque = static_cast<double>(endTime - startTime) / CLOCKS_PER_SEC;
-	double intpart;
-	double fractpart = modf(timeDeque, &intpart);
-	fractpart = roundf(fractpart * 100000.0) / 100000.0;
-	double result = intpart + fractpart;
+	//double intpart;
+	//double fractpart = modf(timeDeque, &intpart);
+	//fractpart = roundf(fractpart * 100000.0) / 100000.0;
+	//double result = intpart + fractpart;
+	std::cout<<std::fixed<<std::setprecision(5)
 
-	std::cout << "Time to process a range of " << object.size()
+	<< "\nTime to process a range of " << object.size()
 			  << " elements with std::deque : "
-			  << result << " us" << std::endl;
+			  << timeDeque << " us" << std::endl;
 }
 void PmergeMe::printTimesVector(clock_t startTime, clock_t endTime , std::vector<int> object)
 {
 	double timeDeque = static_cast<double>(endTime - startTime) / CLOCKS_PER_SEC;
-	double intpart;
-	double fractpart = modf(timeDeque, &intpart);
-	fractpart = roundf(fractpart * 100000.0) / 100000.0;
-	double result = intpart + fractpart;
+	//double intpart;
+	//double fractpart = modf(timeDeque, &intpart);
+	//fractpart = roundf(fractpart * 100000.0) / 100000.0;
+	//double result = intpart + fractpart;
+	std::cout<<std::fixed<<std::setprecision(5)
 
-	std::cout << "Time to process a range of " << object.size()
+	<< "Time to process a range of " << object.size()
 			  << " elements with std::vector : "
-			  << result << " us" << std::endl;
+			  <<  timeDeque << " us" << std::endl;
 }
 
 // pairwise comparison [n/2] if odd => leave last element out

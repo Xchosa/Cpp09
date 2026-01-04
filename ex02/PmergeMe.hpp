@@ -6,13 +6,14 @@
 /*   By: poverbec <poverbec@student.42heilbronn>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 11:01:05 by poverbec          #+#    #+#             */
-/*   Updated: 2026/01/02 11:58:35 by poverbec         ###   ########.fr       */
+/*   Updated: 2026/01/04 19:34:09 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
 #include <iostream>
+#include <iomanip>
 #include <string>
 #include <exception>
 #include <algorithm>

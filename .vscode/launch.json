@@ -6,7 +6,8 @@
       "type": "cppdbg",
       "request": "launch",
       "program": "${workspaceFolder}/ex02/PmergeMe",			// ← Pfad zum Binary
-      "args": ["8", "9", "1", "0", "50", "60", "2", "3", "4", "1", "10", "11", "98", "78", "23", "21"],
+      "args": ["8", "9", "1", "0", "7", "50", "60", "2", "3", "4", "1", "10", "11", "98", "78", "23", "21"],
+      // "args": ["8", "9", "1", "0", "50"],
       "stopAtEntry": false,								// ← Pfad zum Binary
       "cwd": "${workspaceFolder}/ex02",
       "environment": [],
