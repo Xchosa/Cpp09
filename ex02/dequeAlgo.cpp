@@ -6,7 +6,7 @@
 /*   By: poverbec <poverbec@student.42heilbronn>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 20:21:04 by poverbec          #+#    #+#             */
-/*   Updated: 2026/01/04 20:22:45 by poverbec         ###   ########.fr       */
+/*   Updated: 2026/01/05 09:46:14 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,22 +183,32 @@ void PmergeMe::mergeInsertionRecur(std::deque<int> &container)
 	}
 	
 	size_t lastJacob = 1;
-	for(size_t i = 0; i < JacVector.size(); i++ )
+	for (size_t i = 0; i < JacVector.size(); i++)
 	{
 		size_t currJac = JacVector[i];
-		size_t Indx = std::min(currJac, b_chain.size());
-		//size_t searchLimit = mainChain.size();
+		size_t startIdx = std::min(currJac, b_chain.size()); // out of bounds check
 		
-		for(size_t j = Indx; j > lastJacob ; j--)
+		for (size_t j = startIdx; j > lastJacob; j--)
 		{
-			int target = b_chain[j -1];
+			int target = b_chain[j - 1];
+			int numAdded = 1;
 			
-			auto pos = std::lower_bound(mainChain.begin(),mainChain.end(), target);
-			mainChain.insert(pos, target);
-			//searchLimit = std::distance(mainChain.begin(), pos);
+			// partner in a_chain (unveraendert)
+			//int targetPartner = a_chain[j-1];
 			
+			// order insert [3, 2, 5, 4] jumps to the complicated first (first 5 then 4 )
+			
+			auto it = std::lower_bound(mainChain.begin(), mainChain.end(), target);
+			//auto it = std::lower_bound(mainChain.begin(), mainChain.begin()+j, target);
+			if(a_chain[j -1] >= mainChain[j-1])
+				it = std::lower_bound(mainChain.begin(), mainChain.begin()+ j, target);
+			
+			
+			//auto it = std::lower_bound(mainChain.begin(), mainChain.end(), target);
+			mainChain.insert(it, target);
+			numAdded++;
 		}
-		lastJacob = Indx;
+		lastJacob = startIdx;
 	}
 
 	// simplyfied lowerbounds without jacobsthal..

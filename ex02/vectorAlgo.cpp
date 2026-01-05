@@ -6,7 +6,7 @@
 /*   By: poverbec <poverbec@student.42heilbronn>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 20:21:59 by poverbec          #+#    #+#             */
-/*   Updated: 2026/01/04 20:49:55 by poverbec         ###   ########.fr       */
+/*   Updated: 2026/01/05 09:43:01 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,23 +143,22 @@ void PmergeMe::mergeInsertionRecur(std::vector<int> &container)
 		for (size_t j = startIdx; j > lastJacob; j--)
 		{
 			int target = b_chain[j - 1];
+			int numAdded = 1;
 			
 			// partner in a_chain (unveraendert)
-			int targetPartner = a_chain[j-1];
+			//int targetPartner = a_chain[j-1];
 			
-			
-			size_t SearchLimit = std::distance(mainChain.begin(), targetPartner);
-			
-			// only search until partner value in mainChain
-			//std::cout << "index inserted: " << (j - 1) << " | wert: ";
-			//std::cout << target << std::endl;
-
 			// order insert [3, 2, 5, 4] jumps to the complicated first (first 5 then 4 )
 			
+			//auto it = std::lower_bound(mainChain.begin(), mainChain.begin()+j + numAdded, target);
+			auto it = std::lower_bound(mainChain.begin(), mainChain.begin()+j, target);
+			//if(a_chain[j -1] >= mainChain[j-1])
+			//	it = std::lower_bound(mainChain.begin(), mainChain.begin()+ j, target);
 			
-			auto it = std::lower_bound(mainChain.begin(), mainChain.begin()+ SearchLimit, target);
+			
 			//auto it = std::lower_bound(mainChain.begin(), mainChain.end(), target);
 			mainChain.insert(it, target);
+			numAdded++;
 		}
 		lastJacob = startIdx;
 	}
