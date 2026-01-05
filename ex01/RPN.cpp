@@ -6,7 +6,7 @@
 /*   By: poverbec <poverbec@student.42heilbronn>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 10:11:38 by poverbec          #+#    #+#             */
-/*   Updated: 2025/12/22 10:57:51 by poverbec         ###   ########.fr       */
+/*   Updated: 2026/01/05 13:52:19 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,15 +20,12 @@ void check_stack(std::stack<float> stack)
 {
 	std::stack<float> stackb(stack);
 	std::cout << "Stack controll" << std::endl;
-	while(!stackb.empty())
+	while (!stackb.empty())
 	{
 		std::cout << "[" << stackb.top() << "]" << '\n';
 		stackb.pop();
 	}
 }
-
-
-
 
 bool checkValid(std::string number)
 {
@@ -63,40 +60,36 @@ bool isoperator(std::string number)
 	return false;
 }
 
-
 void checkSyntax(std::string token, std::stack<float> &stack, std::istringstream &NbrStream)
 {
 	std::stack<float> stackb(stack);
 	std::cout << "Stack controll syntax" << std::endl;
 	int digitsInStack = 0;
 	int operatorsInStack = 0;
-	while(!stackb.empty())
+	while (!stackb.empty())
 	{
 		std::cout << "[" << stackb.top() << "]" << '\n';
-		if(isoperator(std::to_string(stackb.top())))
+		if (isoperator(std::to_string(stackb.top())))
 			operatorsInStack++;
-		if(isdigit(token[0]) && isNotNegativ(token))
+		if (isdigit(token[0]) && isNotNegativ(token))
 			digitsInStack++;
 		stackb.pop();
 	}
-	if(digitsInStack == 2 && operatorsInStack == 0 && (NbrStream.peek() == EOF ))
+	if (digitsInStack == 2 && operatorsInStack == 0 && (NbrStream.peek() == EOF))
 		throw std::invalid_argument("Syntax Error, operator missing");
-	//std::cout << "digits: " << digitsInStack << " | operatorsInStack: " << operatorsInStack << "tokensize: " << token.empty() << std::endl;
+	// std::cout << "digits: " << digitsInStack << " | operatorsInStack: " << operatorsInStack << "tokensize: " << token.empty() << std::endl;
 }
-
-
 
 void addStack(std::string token, std::stack<float> &stack)
 {
 
-	if(stack.size() == 3)
+	if (stack.size() == 3)
 		throw std::invalid_argument("Error: invalid syntax ");
 	float nbr = std::stof(token);
-	
 
 	stack.push(nbr);
-	//std::cout << "Number added"  << std::endl;
-	//check_stack(stack);
+	// std::cout << "Number added"  << std::endl;
+	// check_stack(stack);
 }
 
 void operation(std::stack<float> &stack, std::string token)
@@ -104,7 +97,7 @@ void operation(std::stack<float> &stack, std::string token)
 
 	if (stack.size() > 2)
 		throw std::invalid_argument("Error not 2 numbers");
-	//check_stack(stack);
+	// check_stack(stack);
 	float b = stack.top();
 	stack.pop();
 	float a = stack.top();
@@ -137,8 +130,8 @@ void operation3(std::stack<float> &stack, std::string token)
 
 	if (stack.size() > 3)
 		throw std::invalid_argument("Error not 2 numbers");
-	//check_stack(stack);
-	float c = stack.top(); // b 
+	// check_stack(stack);
+	float c = stack.top(); // b
 	stack.pop();
 	float b = stack.top(); // a
 	stack.pop();
@@ -174,57 +167,37 @@ float RPN(std::string number)
 	std::istringstream ss(number);
 
 	std::string token;
-	//std::cout << "size of string: " << std::to_string(number.size()) << std::endl;
 
 	int i = 0;
 	while (ss >> token)
 	{
-		//std::cout << "round: " << i <<" [" << token << "]" << std::endl;
-		//checkSyntax(token,stack, ss);
 		if (isdigit(token[0]) && isNotNegativ(token))
 		{
-			try
-			{
-				addStack(token, stack);
-			}
-			catch (const std::exception &e)
-			{
-				std::cerr << e.what() << '\n';
-				return 1;
-			}
+
+			addStack(token, stack);
 		}
-		else if(isoperator(token))
+		else if (isoperator(token))
 		{
-			try
-			{
-				//std::cout << "stack size: " << stack.size() << std::endl;
-				if(stack.size() == 2)
-					operation(stack, token);
-				if(stack.size() == 3)
-					operation3(stack, token);
-					
-			}
-			catch (const std::exception &e)
-			{
-				std::cerr << e.what() << '\n';
-				return 1;
-			}
+
+			if (stack.size() == 1)
+				throw std::invalid_argument("Error invalid input");
+			if (stack.size() == 2)
+				operation(stack, token);
+			if (stack.size() == 3)
+				operation3(stack, token);
 		}
 		i++;
 	}
-	if(stack.size() == 2)
+	if (stack.size() == 2)
 		throw std::invalid_argument("Syntax Error, operator missing");
-	//std::cout << "Stack Check" << std::endl;
-
+	// std::cout << "Stack Check" << std::endl;
 
 	if (stack.empty())
 		return 0;
 
 	float result = stack.top();
-	std::cout << "[" << stack.top() << "]" << '\n';
 	return result;
 }
-
 
 /*
 

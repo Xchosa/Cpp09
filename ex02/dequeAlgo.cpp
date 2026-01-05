@@ -6,12 +6,11 @@
 /*   By: poverbec <poverbec@student.42heilbronn>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 20:21:04 by poverbec          #+#    #+#             */
-/*   Updated: 2026/01/05 09:46:14 by poverbec         ###   ########.fr       */
+/*   Updated: 2026/01/05 11:17:00 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "PmergeMe.hpp"
-
 
 // pairwise comparison [n/2] if odd => leave last element out
 // sort [n/2] larger numbers -> by merge insertion
@@ -35,16 +34,16 @@ void PmergeMe::SortingDeque(const PmergeMe &object)
 	startTime = clock();
 	mergeInsertionRecur(tmpDeque);
 	endTime = clock();
-	
+
 	// sort a_chain and make the same move with b stack;
-	std::cout << "\nAfter: ";
-	for (int value : tmpDeque)
-	{
-		std::cout << "[" << value << "] ";
-	}
-	std::cout << std::endl;
+	// std::cout << "\nAfter: ";
+	// for (int value : tmpDeque)
+	//{
+	//	std::cout << "[" << value << "] ";
+	//}
+	// std::cout << std::endl;
 	printTimesDeque(startTime, endTime, tmpDeque);
-	
+
 	// int jabcobstal(n);
 	// std::cout << std::endl;
 
@@ -79,7 +78,7 @@ void PmergeMe::mergeInsertionRecur(std::deque<int> &container)
 	if (container.size() % 2 != 0)
 	{
 		leftover = container.back();
-		//leftover = container[container.size() - 1];
+		// leftover = container[container.size() - 1];
 	}
 
 	// first round winner
@@ -89,40 +88,40 @@ void PmergeMe::mergeInsertionRecur(std::deque<int> &container)
 	//  again a 2 number comparison of the winners (each winner has an atached  b number)
 	for (auto &iter : pairs)
 	{
-		//winner.emplace_back(iter.first);
-		winner.push_back(iter.first);
+		// winner.emplace_back(iter.first);
+		winner.emplace_back(iter.first);
 	}
-	//std::cout << "pairs size: " << pairs.size() << " | winner size: " << winner.size() << std::endl;
-	//std::cout << "winner chain" << std::endl;
-	//for (int value : winner)
+	// std::cout << "pairs size: " << pairs.size() << " | winner size: " << winner.size() << std::endl;
+	// std::cout << "winner chain" << std::endl;
+	// for (int value : winner)
 	//{
 	//	std::cout << "["<< value << "] ";
-	//}
-	//std::cout << std::endl;
-	// call algo rekursive
+	// }
+	// std::cout << std::endl;
+	//  call algo rekursive
 	mergeInsertionRecur(winner);
 
-	// biggest nbr left, now winner chain gets rekursion pops up (see pair values) 
+	// biggest nbr left, now winner chain gets rekursion pops up (see pair values)
 	// the next winner put in the a_stack -> is sorted at the end
 	// each random b gets pushed into b_stack
-	// bubbeling up 
-	//std::cout << "winner chain after sorting " << std::endl;
-	//for (int value : winner)
+	// bubbeling up
+	// std::cout << "winner chain after sorting " << std::endl;
+	// for (int value : winner)
 	//{
 	//	std::cout << "["<< value << "] ";
 	//}
-	//std::cout << std::endl;
-	
+	// std::cout << std::endl;
+
 	std::deque<int> a_chain;
 	std::deque<int> b_chain;
 
-	//// structure bindings 
-	//std::cout << "\n pair values : ";
-	//for (auto [a,b] : pairs)
+	//// structure bindings
+	// std::cout << "\n pair values : ";
+	// for (auto [a,b] : pairs)
 	//{
 	//	std::cout << "[" << a << "|" << b << "] ";
-	//}
-	
+	// }
+
 	for (int sortedVal : winner)
 	{
 		for (auto iter = pairs.begin(); iter != pairs.end(); iter++)
@@ -131,113 +130,113 @@ void PmergeMe::mergeInsertionRecur(std::deque<int> &container)
 			{
 				a_chain.emplace_back(iter->first);
 				b_chain.emplace_back(iter->second);
-				
+
 				pairs.erase(iter);
 				break;
 			}
 		}
 	}
 
-	//std::cout << "\n pair values : ";
-	//for (auto [a,b] : pairs)
+	// std::cout << "\n pair values : ";
+	// for (auto [a,b] : pairs)
 	//{
 	//	std::cout << "[" << a << "|" << b << "] ";
-	//}
-	// add the end -> e.g. 5 num must be added-> happens once at all
+	// }
+	//  add the end -> e.g. 5 num must be added-> happens once at all
 	if (leftover != -1)
 		b_chain.emplace_back(leftover);
-	
 
 	std::deque<int> mainChain = a_chain;
-	if(!b_chain.empty())
+	if (!b_chain.empty())
 	{
 		mainChain.insert(mainChain.begin(), b_chain[0]);
 	}
 	// add after each recursive iteration the leftover in the b chain
-	
 
-	//std::cout << "\n A Chain : ";
-	//for (size_t value : a_chain)
+	// std::cout << "\n A Chain : ";
+	// for (size_t value : a_chain)
 	//{
 	//	std::cout << "[" << value << "] ";
-	//}
-	//std::cout << "\n B Chain : ";
-	//for (size_t value : b_chain)
+	// }
+	// std::cout << "\n B Chain : ";
+	// for (size_t value : b_chain)
 	//{
 	//	std::cout << "[" << value << "] ";
-	//}
-	//std::cout << std::endl;
-	
-	std::deque<int> JacVector;
+	// }
+	// std::cout << std::endl;
+
+	std::deque<int> JacobsthalVector;
 	size_t k = 3;
-	while(1)
+	while (1)
 	{
 		size_t jValue = Jacobsthal(k);
-		if(jValue >= b_chain.size())
+		if (jValue >= b_chain.size())
 		{
-			JacVector.emplace_back(b_chain.size());
+			JacobsthalVector.emplace_back(b_chain.size());
 			break;
 		}
-		JacVector.emplace_back(jValue);
+		JacobsthalVector.emplace_back(jValue);
 		k++;
 	}
-	
+
 	size_t lastJacob = 1;
-	for (size_t i = 0; i < JacVector.size(); i++)
+	int insertedEl = 1;
+	for (size_t i = 0; i < JacobsthalVector.size(); i++)
 	{
-		size_t currJac = JacVector[i];
+		size_t currJac = JacobsthalVector[i];
 		size_t startIdx = std::min(currJac, b_chain.size()); // out of bounds check
 		
+
 		for (size_t j = startIdx; j > lastJacob; j--)
 		{
 			int target = b_chain[j - 1];
-			int numAdded = 1;
-			
+
 			// partner in a_chain (unveraendert)
-			//int targetPartner = a_chain[j-1];
+
+	
 			
+
 			// order insert [3, 2, 5, 4] jumps to the complicated first (first 5 then 4 )
-			
-			auto it = std::lower_bound(mainChain.begin(), mainChain.end(), target);
-			//auto it = std::lower_bound(mainChain.begin(), mainChain.begin()+j, target);
-			if(a_chain[j -1] >= mainChain[j-1])
-				it = std::lower_bound(mainChain.begin(), mainChain.begin()+ j, target);
-			
-			
-			//auto it = std::lower_bound(mainChain.begin(), mainChain.end(), target);
+		
+			size_t Limit = mainChain.size();
+			// leftover alwarys needs the hole chain
+			if (j -1 < a_chain.size())
+			{
+				Limit = std::min((size_t)(j - 1 + insertedEl), mainChain.size());
+			}
+			auto it = std::lower_bound(mainChain.begin(),mainChain.begin() + Limit, target);
 			mainChain.insert(it, target);
-			numAdded++;
+			insertedEl++;
 		}
 		lastJacob = startIdx;
 	}
 
 	// simplyfied lowerbounds without jacobsthal..
-	//for(size_t i = 1; i < b_chain.size() ; i++)
+	// for(size_t i = 1; i < b_chain.size() ; i++)
 	//{
 	//	auto pos = std::lower_bound(mainChain.begin(),mainChain.end(), b_chain[i] );
 	//	mainChain.insert(pos, b_chain[i]);
 	//}
-	
-	//std::cout << "\n A Chain : ";
-	//for (size_t value : a_chain)
-	//{
-	//	std::cout << "[" << value << "] ";
-	//}
-	//std::cout << "\n B Chain : ";
-	//for (size_t value : b_chain)
-	//{
-	//	std::cout << "[" << value << "] ";
-	//}
-	//std::cout << std::endl;
 
-	//std::cout << "\n Main Chain : ";
-	//for (size_t value : mainChain)
+	// std::cout << "\n A Chain : ";
+	// for (size_t value : a_chain)
 	//{
 	//	std::cout << "[" << value << "] ";
-	//}
-	//std::cout << std::endl;
-	
-	
+	// }
+	// std::cout << "\n B Chain : ";
+	// for (size_t value : b_chain)
+	//{
+	//	std::cout << "[" << value << "] ";
+	// }
+	// std::cout << std::endl;
+
+	// std::cout << "\n Main Chain : ";
+	// for (size_t value : mainChain)
+	//{
+	//	std::cout << "[" << value << "] ";
+	// }
+	// std::cout << std::endl;
+
 	// bubbeling up
 	container = mainChain;
 }

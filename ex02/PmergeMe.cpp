@@ -6,7 +6,7 @@
 /*   By: poverbec <poverbec@student.42heilbronn>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 10:11:38 by poverbec          #+#    #+#             */
-/*   Updated: 2026/01/04 19:39:38 by poverbec         ###   ########.fr       */
+/*   Updated: 2026/01/05 11:13:38 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,29 +60,28 @@ int PmergeMe::Jacobsthal(int n)
 }
 
 
-void PmergeMe::insertBinaryWithJakobsthal(std::vector<int> &mainChain, std::vector<int> &b_Chain, std::vector<int> JacobsthalVector)
-{
-	if(b_Chain.empty())
-		return;
-	size_t lastJacob = 1;
-	for(size_t i = 1; i< JacobsthalVector.size(); i++)
-	{
-		size_t currJac = JacobsthalVector[i];
+//void PmergeMe::insertBinaryWithJakobsthal(std::vector<int> &mainChain, std::vector<int> &b_Chain, std::vector<int> JacobsthalVector)
+//{
+//	if(b_Chain.empty())
+//		return;
+//	size_t lastJacob = 1;
+//	for(size_t i = 1; i< JacobsthalVector.size(); i++)
+//	{
+//		size_t currJac = JacobsthalVector[i];
 		
-		size_t startIdx = std::min(currJac, b_Chain.size());
-		for (size_t j = startIdx; j < lastJacob; i--)
-		{
-			int target = b_Chain[j-1];
-			std::cout << "index inserted" << (j-1) << std::endl;
+//		size_t startIdx = std::min(currJac, b_Chain.size());
+//		for (size_t j = startIdx; j > lastJacob; i--)
+//		{
+//			int target = b_Chain[j-1];
+//			std::cout << "index inserted" << (j-1) << std::endl;
 			
-			auto it = std::lower_bound(mainChain.begin(), mainChain.end(), target);
-			mainChain.insert(it, target);
-		}
-		lastJacob = startIdx;
-	}
-		
+//			auto it = std::lower_bound(mainChain.begin(), mainChain.end(), target);
+//			mainChain.insert(it, target);
+//		}
+//		lastJacob = startIdx;
+//	}	
 	
-}
+//}
 bool checkValid(std::string number)
 {
 	std::size_t invalidchar = number.find_first_not_of("1234567890");
@@ -101,6 +100,8 @@ void PmergeMe::fillDequeVector(std::string number)
 	try
 	{
 		token = stoi(number);
+		if (token < 0)
+			throw std::invalid_argument("Error invalid input");
 		_deque.emplace_back(token);
 		_vector.emplace_back(token);
 	}

@@ -6,7 +6,7 @@
 /*   By: poverbec <poverbec@student.42heilbronn>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/22 11:01:05 by poverbec          #+#    #+#             */
-/*   Updated: 2026/01/04 19:34:09 by poverbec         ###   ########.fr       */
+/*   Updated: 2026/01/05 10:19:04 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ public:
 	
 	void SortingDeque(const PmergeMe &object);
 	void mergeInsertionRecur(std::deque<int> &container);
-	void insertBinaryWithJakobsthal(std::vector<int> &mainChain, std::vector<int> &b_Chain, std::vector<int> JacobsthalVector);
+	//void insertBinaryWithJakobsthal(std::vector<int> &mainChain, std::vector<int> &b_Chain, std::vector<int> JacobsthalVector);
 	
 	
 	
