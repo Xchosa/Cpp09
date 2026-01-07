@@ -6,7 +6,7 @@
 /*   By: poverbec <poverbec@student.42heilbronn>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 10:08:28 by poverbec          #+#    #+#             */
-/*   Updated: 2025/12/18 10:52:06 by poverbec         ###   ########.fr       */
+/*   Updated: 2026/01/07 14:47:46 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,9 @@ std::map<std::string,double> loadDataBase(std::string dbPath)
 	//	auto last = DbMap.end(); // pointer to last iterator
 	//	//std::cout << "DbMap filled last line :" << "[" << last->first  << " | " << last->second  << "]" << std::endl;
 	//}
-	testToFile(DbMap);
+
+	
+	//testToFile(DbMap); print read file
 	
 	return DbMap;
 };
@@ -90,17 +92,22 @@ void readInputandPrintBitcoin(std::string inputFilePath, std::map<std::string,do
 		if(line.find("date | value") == 0)
 			continue;;
         size_t found = line.find("|");
-        //if (found == std::string::npos)
-        //{
-        //    std::cerr << " invalid line" << std::endl;
-        //    continue;
-        //}
+        if (found == std::string::npos)
+        {
+            std::cerr << " invalid line" << std::endl;
+            continue;
+        }
         std::string date = line.substr(0, found-1);
 		if(checkValidDate(date) == false)
         	continue;
 		auto DbMapFoundDate =  FindRateForDate(DbMap, date); // price of csv file
         double amountDB = DbMapFoundDate->second;
         std::string amount_input = line.substr(found + 1);
+		if(checkForDigits(amount_input) == false)
+		 {
+			std::cerr << " invalid line" << std::endl;
+			continue;
+        }
 		trim(amount_input);
 		if(amount_input.size() == 0)
 		{
@@ -108,8 +115,8 @@ void readInputandPrintBitcoin(std::string inputFilePath, std::map<std::string,do
 			 continue;
 		}
 		double amount_inputdb = std::stod(amount_input);
-
-        if(amount_inputdb > __INT_MAX__ )
+		//std::cout << "stod aus input: " <<  std::to_string(amount_inputdb) << std::endl;
+        if(amount_inputdb > 1000 )
 		{
 			 std::cerr << "Error: Too big number " << std::endl;
 			 continue;
@@ -123,6 +130,14 @@ void readInputandPrintBitcoin(std::string inputFilePath, std::map<std::string,do
 		std::cout << DbMapFoundDate->first << " =>" << amount_input << " = " <<  value << std::endl;
     }
     BtcFile.close();
+}
+
+bool checkForDigits(std::string amountInput)
+{
+	auto pos = amountInput.find_first_of("abcdefghijklmnopqrstuvwxyz!@#$%^&");
+	if(pos != std::string::npos)
+		return false;
+	return true;
 }
 
 double convertDate(const std::string &date)

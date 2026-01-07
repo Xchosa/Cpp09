@@ -6,7 +6,7 @@
 /*   By: poverbec <poverbec@student.42heilbronn>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 10:08:35 by poverbec          #+#    #+#             */
-/*   Updated: 2025/12/18 10:10:01 by poverbec         ###   ########.fr       */
+/*   Updated: 2026/01/07 14:43:54 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void trim(std::string &str);
 double convertDate(const std::string &date);
 void testToFile(std::map<std::string,double> DbMap);
 bool checkValidDate(std::string data);
+bool checkForDigits(std::string amountInput);
 bool Schaltjahr(int dataYY, int dataMM, int dataDD);
 
 
