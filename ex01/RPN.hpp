@@ -6,7 +6,7 @@
 /*   By: poverbec <poverbec@student.42heilbronn>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 10:11:50 by poverbec          #+#    #+#             */
-/*   Updated: 2025/12/22 10:05:28 by poverbec         ###   ########.fr       */
+/*   Updated: 2026/01/07 15:37:44 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 #include <vector>
 #include <sstream>
 
+#include "limits.h"
+#include "math.h"
 #include <stack>
 
 bool checkValid(std::string number);
