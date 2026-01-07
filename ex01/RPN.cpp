@@ -6,7 +6,7 @@
 /*   By: poverbec <poverbec@student.42heilbronn>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/18 10:11:38 by poverbec          #+#    #+#             */
-/*   Updated: 2026/01/07 15:58:13 by poverbec         ###   ########.fr       */
+/*   Updated: 2026/01/07 16:31:24 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,8 +118,6 @@ void operation(std::stack<float> &stack, std::string token)
 		throw std::invalid_argument("Error invalid input");
 	}
 	
-	if (isinf(result))
-		throw std::invalid_argument("math limit");
 	if (isnan(result) || isnanf(result) || isnanf(result) || isinf(result))
 		throw std::invalid_argument("math limit");
 
