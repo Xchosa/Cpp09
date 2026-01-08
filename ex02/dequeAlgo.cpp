@@ -6,7 +6,7 @@
 /*   By: poverbec <poverbec@student.42heilbronn>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/28 20:21:04 by poverbec          #+#    #+#             */
-/*   Updated: 2026/01/05 11:17:00 by poverbec         ###   ########.fr       */
+/*   Updated: 2026/01/08 14:06:01 by poverbec         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,4 +239,5 @@ void PmergeMe::mergeInsertionRecur(std::deque<int> &container)
 
 	// bubbeling up
 	container = mainChain;
+	//container = std::move(mainChain);
 }
