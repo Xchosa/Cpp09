@@ -5,6 +5,7 @@ output2=$(./RPN "9 8 * 4 * 4 / 2 + 9 - 8 - 8 - 1 - 6 -" 2>&1)
 output3=$(./RPN "1 2 * 2 / 2 + 5 * 6 - 1 3 * - 4 5 * * 8 /" 2>&1)
 output4=$(./RPN "1 2 + 2 - * 2 +" 2>&1)
 output5=$(./RPN "1 + 1" 2>&1)
+output6=$(./RPN "0 1 + 1 2 *  / 2 / 1 1 1 1 1 1 + + + + + + " 2>&1)
 
 # Test 1
 if [ "$output1" == "42" ]; then
@@ -44,10 +45,19 @@ else
 fi
 
 # Test 5
-if [[ "$output5" == *"Error"* ]]; then
+if [[ "$output5" == *"Error"* ]]; then 
   echo "Result: $output5"
   echo "✓ Output has thrown an error"
 else
   echo "Result: $output5"
   echo "✗ Output is NOT correct, should be Error"
+fi
+
+# Test 6
+if ["$output5" == "6.25" ]; then
+  echo "Result: $output5"
+  echo "✓ Output is calculated correctly"
+else
+  echo "Result: $output5"
+  echo "✗ Output is NOT correct, should be 6.25"
 fi

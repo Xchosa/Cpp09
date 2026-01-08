@@ -1,36 +1,13 @@
-//{
-//  "version": "2.0.0",
-//  "tasks": [
-//    {
-//      "label": "execute Makefile ex02",
-//      "type": "shell",
-//      "command": "make",
-//      "args": ["fclean", "all"], // ← Argumente: make clean && make all
-//      "options": {
-//        "cwd": "${workspaceFolder}/ex02"
-//      },
-//      "group": {
-//        "kind": "build",
-//        "isDefault": true        // ← Standard Build-Task
-//      },
-//      "problemMatcher": [           // ← Fehler-Parser für GCC
-//        "$gcc"
-//      ]
-//    }
-//  ]
-//}
-
-
 {
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "execute Makefile ex01",
+      "label": "execute Makefile ex02",
       "type": "shell",
       "command": "make",
       "args": ["fclean", "all"], // ← Argumente: make clean && make all
       "options": {
-        "cwd": "${workspaceFolder}/ex01"
+        "cwd": "${workspaceFolder}/ex02"
       },
       "group": {
         "kind": "build",
@@ -42,3 +19,26 @@
     }
   ]
 }
+
+
+//{
+//  "version": "2.0.0",
+//  "tasks": [
+//    {
+//      "label": "execute Makefile ex01",
+//      "type": "shell",
+//      "command": "make",
+//      "args": ["fclean", "all"], // ← Argumente: make clean && make all
+//      "options": {
+//        "cwd": "${workspaceFolder}/ex01"
+//      },
+//      "group": {
+//        "kind": "build",
+//        "isDefault": true        // ← Standard Build-Task
+//      },
+//      "problemMatcher": [           // ← Fehler-Parser für GCC
+//        "$gcc"
+//      ]
+//    }
+//  ]
+//}
